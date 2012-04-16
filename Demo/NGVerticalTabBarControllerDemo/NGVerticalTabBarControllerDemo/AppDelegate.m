@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  NGVerticalTabBarControllerDemo
+//  NGTabBarControllerDemo
 //
 //  Created by Tretter Matthias on 16.02.12.
 //  Copyright (c) 2012 NOUS Wissensmanagement GmbH. All rights reserved.
@@ -24,9 +24,9 @@
                                [[NGColoredViewController alloc] initWithNibName:nil bundle:nil],
                                [[NGColoredViewController alloc] initWithNibName:nil bundle:nil],nil];
     
-    NGVerticalTabBarController *tabBarController = [[NGVerticalTabBarController alloc] initWithDelegate:self];
+    NGTabBarController *tabBarController = [[NGTabBarController alloc] initWithDelegate:self];
     
-    tabBarController.animation = NGVerticalTabBarControllerAnimationMoveAndScale;
+    tabBarController.animation = NGTabBarControllerAnimationMoveAndScale;
     tabBarController.viewControllers = viewController;
     self.window.rootViewController = tabBarController;
     
@@ -36,15 +36,16 @@
 }
 
 ////////////////////////////////////////////////////////////////////////
-#pragma mark - NGVerticalTabBarControllerDelegate
+#pragma mark - NGTabBarControllerDelegate
 ////////////////////////////////////////////////////////////////////////
 
-- (NGVerticalTabBarCell *)verticalTabBarController:(NGVerticalTabBarController *)tabBarController
-                                    customizedCell:(NGVerticalTabBarCell *)cell
-                                 forViewController:(UIViewController *)viewController
-                                           atIndex:(NSUInteger)index {
-    cell.textLabel.text = [NSString stringWithFormat:@"%d", index];
-    return cell;
+- (NGTabBarItem *)verticalTabBarController:(NGTabBarController *)tabBarController
+                            customizedItem:(NGTabBarItem *)item
+                         forViewController:(UIViewController *)viewController
+                                   atIndex:(NSUInteger)index {
+    item.textLabel.text = [NSString stringWithFormat:@"%d", index];
+    
+    return item;
 }
 
 @end

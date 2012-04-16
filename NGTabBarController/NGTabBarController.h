@@ -1,19 +1,19 @@
 //
-//  NGVerticalTabBarController.h
-//  NGVerticalTabBarController
+//  NGTabBarController.h
+//  NGTabBarController
 //
 //  Created by Tretter Matthias on 14.02.12.
 //  Copyright (c) 2012 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
-#import "NGVerticalTabBarControllerDelegate.h"
-#import "NGVerticalTabBar.h"
-#import "NGVerticalTabBarCell.h"
-#import "NGVerticalTabBarControllerAnimation.h"
+#import "NGTabBarControllerDelegate.h"
+#import "NGTabBar.h"
+#import "NGTabBarItem.h"
+#import "NGTabBarControllerAnimation.h"
 
 
-/** NGVerticalTabBarController is a vertical TabBar displayed on the left side of the device */
-@interface NGVerticalTabBarController : UIViewController
+/** NGTabBarController is a vertical TabBar displayed on the left side of the device */
+@interface NGTabBarController : UIViewController
 
 /** An array of the view controllers displayed by the tab bar */
 @property (nonatomic, copy) NSArray *viewControllers;
@@ -23,15 +23,15 @@
 @property (nonatomic, unsafe_unretained) UIViewController *selectedViewController;
 
 /** The tab bar controller’s delegate object. */
-@property (nonatomic, unsafe_unretained) id<NGVerticalTabBarControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<NGTabBarControllerDelegate> delegate;
 
 /** The tableView used to display all tab bar elements */
-@property (nonatomic, strong, readonly) NGVerticalTabBar *tabBar;
-/** The class of the tableViewCell of the tabBar, defaults to NGVerticalTabBarCell */
-@property (nonatomic, assign) Class tabBarCellClass;
+@property (nonatomic, strong, readonly) NGTabBar *tabBar;
+/** The class of the tableViewCell of the tabBar, defaults to NGTabBarCell */
+@property (nonatomic, assign) Class tabBarItemClass;
 
 /** The animation used when changing selected tabBarItem, default: none */
-@property (nonatomic, assign) NGVerticalTabBarControllerAnimation animation;
+@property (nonatomic, assign) NGTabBarControllerAnimation animation;
 /** The duration of the used animation, only taken into account when animation is different from none */
 @property (nonatomic, assign) NSTimeInterval animationDuration;
 
@@ -39,6 +39,6 @@
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
 
 /** The designated initializer. */
-- (id)initWithDelegate:(id<NGVerticalTabBarControllerDelegate>)delegate;
+- (id)initWithDelegate:(id<NGTabBarControllerDelegate>)delegate;
 
 @end

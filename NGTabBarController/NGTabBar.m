@@ -1,6 +1,6 @@
-#import "NGVerticalTabBar.h"
+#import "NGTabBar.h"
 
-@implementation NGVerticalTabBar
+@implementation NGTabBar
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Lifecycle

@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'NGVerticalTabBarControllerDemo' target in the 'NGVerticalTabBarControllerDemo' project
+// Prefix header for all source files of the 'NGTabBarControllerDemo' target in the 'NGTabBarControllerDemo' project
 //
 
 #import <Availability.h>

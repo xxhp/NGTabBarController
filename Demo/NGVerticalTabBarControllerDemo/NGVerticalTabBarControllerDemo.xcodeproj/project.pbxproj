@@ -7,34 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9BA31574153C76CE002E7628 /* libNGTabBarController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA3156F153C769C002E7628 /* libNGTabBarController.a */; };
 		9BEA2B5714ED1B4A00AEE977 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */; };
 		9BEA2B5914ED1B4A00AEE977 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5814ED1B4A00AEE977 /* Foundation.framework */; };
 		9BEA2B5B14ED1B4A00AEE977 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5A14ED1B4A00AEE977 /* CoreGraphics.framework */; };
 		9BEA2B6114ED1B4A00AEE977 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9BEA2B5F14ED1B4A00AEE977 /* InfoPlist.strings */; };
 		9BEA2B6314ED1B4A00AEE977 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEA2B6214ED1B4A00AEE977 /* main.m */; };
 		9BEA2B6714ED1B4A00AEE977 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEA2B6614ED1B4A00AEE977 /* AppDelegate.m */; };
-		9BEA2B7F14ED1B8900AEE977 /* libNGVerticalTabBarController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B7214ED1B5A00AEE977 /* libNGVerticalTabBarController.a */; };
 		9BEA2B8214ED1BC300AEE977 /* NGColoredViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEA2B8114ED1BC300AEE977 /* NGColoredViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9BEA2B7114ED1B5A00AEE977 /* PBXContainerItemProxy */ = {
+		9BA3156E153C769C002E7628 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9BEA2B6D14ED1B5A00AEE977 /* NGVerticalTabBarController.xcodeproj */;
+			containerPortal = 9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 9B80B52D14EA8F7100B83FA0;
-			remoteInfo = NGVerticalTabBarController;
+			remoteInfo = NGTabBarController;
 		};
-		9BEA2B7D14ED1B8300AEE977 /* PBXContainerItemProxy */ = {
+		9BA31572153C76C8002E7628 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9BEA2B6D14ED1B5A00AEE977 /* NGVerticalTabBarController.xcodeproj */;
+			containerPortal = 9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 9B80B52C14EA8F7100B83FA0;
-			remoteInfo = NGVerticalTabBarController;
+			remoteInfo = NGTabBarController;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NGTabBarController.xcodeproj; path = ../../NGTabBarController.xcodeproj; sourceTree = "<group>"; };
 		9BEA2B5214ED1B4A00AEE977 /* NGVerticalTabBarControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NGVerticalTabBarControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9BEA2B5814ED1B4A00AEE977 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -45,7 +46,6 @@
 		9BEA2B6414ED1B4A00AEE977 /* NGVerticalTabBarControllerDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NGVerticalTabBarControllerDemo-Prefix.pch"; sourceTree = "<group>"; };
 		9BEA2B6514ED1B4A00AEE977 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9BEA2B6614ED1B4A00AEE977 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9BEA2B6D14ED1B5A00AEE977 /* NGVerticalTabBarController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NGVerticalTabBarController.xcodeproj; path = ../../NGVerticalTabBarController.xcodeproj; sourceTree = "<group>"; };
 		9BEA2B8014ED1BC300AEE977 /* NGColoredViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGColoredViewController.h; sourceTree = "<group>"; };
 		9BEA2B8114ED1BC300AEE977 /* NGColoredViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGColoredViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9BEA2B7F14ED1B8900AEE977 /* libNGVerticalTabBarController.a in Frameworks */,
+				9BA31574153C76CE002E7628 /* libNGTabBarController.a in Frameworks */,
 				9BEA2B5714ED1B4A00AEE977 /* UIKit.framework in Frameworks */,
 				9BEA2B5914ED1B4A00AEE977 /* Foundation.framework in Frameworks */,
 				9BEA2B5B14ED1B4A00AEE977 /* CoreGraphics.framework in Frameworks */,
@@ -65,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BA31568153C769C002E7628 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9BA3156F153C769C002E7628 /* libNGTabBarController.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9BEA2B4714ED1B4A00AEE977 = {
 			isa = PBXGroup;
 			children = (
@@ -85,7 +93,7 @@
 		9BEA2B5514ED1B4A00AEE977 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9BEA2B6D14ED1B5A00AEE977 /* NGVerticalTabBarController.xcodeproj */,
+				9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */,
 				9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */,
 				9BEA2B5814ED1B4A00AEE977 /* Foundation.framework */,
 				9BEA2B5A14ED1B4A00AEE977 /* CoreGraphics.framework */,
@@ -116,14 +124,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9BEA2B6E14ED1B5A00AEE977 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9BEA2B7214ED1B5A00AEE977 /* libNGVerticalTabBarController.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,7 +138,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				9BEA2B7E14ED1B8300AEE977 /* PBXTargetDependency */,
+				9BA31573153C76C8002E7628 /* PBXTargetDependency */,
 			);
 			name = NGVerticalTabBarControllerDemo;
 			productName = NGVerticalTabBarControllerDemo;
@@ -166,8 +166,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 9BEA2B6E14ED1B5A00AEE977 /* Products */;
-					ProjectRef = 9BEA2B6D14ED1B5A00AEE977 /* NGVerticalTabBarController.xcodeproj */;
+					ProductGroup = 9BA31568153C769C002E7628 /* Products */;
+					ProjectRef = 9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -178,11 +178,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9BEA2B7214ED1B5A00AEE977 /* libNGVerticalTabBarController.a */ = {
+		9BA3156F153C769C002E7628 /* libNGTabBarController.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libNGVerticalTabBarController.a;
-			remoteRef = 9BEA2B7114ED1B5A00AEE977 /* PBXContainerItemProxy */;
+			path = libNGTabBarController.a;
+			remoteRef = 9BA3156E153C769C002E7628 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -212,10 +212,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9BEA2B7E14ED1B8300AEE977 /* PBXTargetDependency */ = {
+		9BA31573153C76C8002E7628 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = NGVerticalTabBarController;
-			targetProxy = 9BEA2B7D14ED1B8300AEE977 /* PBXContainerItemProxy */;
+			name = NGTabBarController;
+			targetProxy = 9BA31572153C76C8002E7628 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -285,7 +285,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NGVerticalTabBarControllerDemo/NGVerticalTabBarControllerDemo-Prefix.pch";
-				HEADER_SEARCH_PATHS = "../../NGVerticalTabBarController/**";
+				HEADER_SEARCH_PATHS = "../../NGTabBarController/**";
 				INFOPLIST_FILE = "NGVerticalTabBarControllerDemo/NGVerticalTabBarControllerDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_LDFLAGS = "-fobjc-arc";
@@ -299,7 +299,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NGVerticalTabBarControllerDemo/NGVerticalTabBarControllerDemo-Prefix.pch";
-				HEADER_SEARCH_PATHS = "../../NGVerticalTabBarController/**";
+				HEADER_SEARCH_PATHS = "../../NGTabBarController/**";
 				INFOPLIST_FILE = "NGVerticalTabBarControllerDemo/NGVerticalTabBarControllerDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_LDFLAGS = "-fobjc-arc";
