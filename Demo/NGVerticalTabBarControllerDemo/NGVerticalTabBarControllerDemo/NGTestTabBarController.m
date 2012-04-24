@@ -34,7 +34,9 @@
     // Release any retained subviews of the main view.
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
     if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
         self.tabBarPosition = NGTabBarPositionBottom;
     } else {

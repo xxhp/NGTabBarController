@@ -21,7 +21,7 @@
 		unsigned int didSelectViewController:1;
 	} _delegateFlags;
     
-    BOOL _moveScaleAnimationActive;
+    BOOL _moveAnimationActive;
 }
 
 // re-defined as read/write
@@ -34,6 +34,7 @@
 @property (nonatomic, readonly) UIViewAnimationOptions currentActiveAnimationOptions;
 
 - (void)updateUI;
+- (void)layout;
 
 - (CGFloat)delegatedTabBarWidth;
 - (BOOL)delegatedDecisionIfWeShouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index;
@@ -67,7 +68,7 @@
         _oldSelectedIndex = NSNotFound;
         _animation = NGTabBarControllerAnimationNone;
         _animationDuration = kNGDefaultAnimationDuration;
-        _moveScaleAnimationActive = NO;
+        _moveAnimationActive = NO;
         _tabBarPosition = kNGTabBarPositionDefault;
         
         // need to call setter here
@@ -150,13 +151,7 @@
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    CGRect childViewControllerFrame = self.childViewControllerFrame;
-    
-    if (!_moveScaleAnimationActive) {
-        for (UIViewController *viewController in self.viewControllers) {
-            viewController.view.frame = childViewControllerFrame;
-        }
-    }
+    [self layout];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -168,6 +163,7 @@
     
     if (!self.containmentAPISupported) {
         [self.selectedViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        [self layout];
     }
 }
 
@@ -320,16 +316,23 @@
                     CGRect frame = self.childViewControllerFrame;
                     
                     if (self.oldSelectedIndex < self.selectedIndex) {
-                        frame.origin.y = frame.size.height;
+                        if (NGTabBarIsVertical(self.tabBarPosition)) {
+                            frame.origin.y = frame.size.height;
+                        } else {
+                            frame.origin.x = frame.size.width;
+                        }
                     } else {
-                        frame.origin.y = -frame.size.height;
+                        if (NGTabBarIsVertical(self.tabBarPosition)) {
+                            frame.origin.y = -frame.size.height;
+                        } else {
+                            frame.origin.x = -frame.size.width;
+                        }
                     }
                     
                     newSelectedViewController.view.frame = frame;
+                    _moveAnimationActive = YES;
                     
                     if (self.animation == NGTabBarControllerAnimationMoveAndScale) {
-                        _moveScaleAnimationActive = YES;
-                        
                         [UIView animateWithDuration:kNGScaleDuration
                                          animations:^{
                                              oldSelectedViewController.view.transform = CGAffineTransformMakeScale(kNGScaleFactor, kNGScaleFactor);
@@ -354,9 +357,17 @@
                                                 newSelectedViewController.view.frame = frame;
                                                 
                                                 if (self.oldSelectedIndex < self.selectedIndex) {
-                                                    frame.origin.y = -frame.size.height;
+                                                    if (NGTabBarIsVertical(self.tabBarPosition)) {
+                                                        frame.origin.y = -frame.size.height;
+                                                    } else {
+                                                        frame.origin.x = -frame.size.width;
+                                                    }
                                                 } else {
-                                                    frame.origin.y = frame.size.height;
+                                                    if (NGTabBarIsVertical(self.tabBarPosition)) {
+                                                        frame.origin.y = frame.size.height;
+                                                    } else {
+                                                        frame.origin.x = frame.size.width;
+                                                    }
                                                 }
                                                 
                                                 oldSelectedViewController.view.frame = frame;
@@ -371,12 +382,13 @@
                                                                      newSelectedViewController.view.transform = CGAffineTransformMakeScale(1.f, 1.f);
                                                                  } completion:^(BOOL finished) {
                                                                      newSelectedViewController.view.frame = self.childViewControllerFrame;
-                                                                     _moveScaleAnimationActive = NO;
+                                                                     _moveAnimationActive = NO;
                                                                      
                                                                      // call the delegate that we changed selection
                                                                      [self callDelegateDidSelectViewController:newSelectedViewController atIndex:self.selectedIndex];
                                                                  }];
                                             } else {
+                                                _moveAnimationActive = NO;
                                                 // call the delegate that we changed selection
                                                 [self callDelegateDidSelectViewController:newSelectedViewController atIndex:self.selectedIndex];
                                             }
@@ -408,10 +420,22 @@
     }
 }
 
+- (void)layout {
+    CGRect childViewControllerFrame = self.childViewControllerFrame;
+    
+    if (!_moveAnimationActive) {
+        for (UIViewController *viewController in self.viewControllers) {
+            viewController.view.frame = childViewControllerFrame;
+        }
+    }
+    
+    [self setupTabBarForPosition:self.tabBarPosition];
+}
+
 - (CGRect)childViewControllerFrame {
     CGRect bounds = self.view.bounds;
     UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
-
+    
     switch (self.tabBarPosition) {
         case NGTabBarPositionTop:
             edgeInsets = UIEdgeInsetsMake([self delegatedTabBarWidth]+1.f, 0.f, 0.f, 0.f);
