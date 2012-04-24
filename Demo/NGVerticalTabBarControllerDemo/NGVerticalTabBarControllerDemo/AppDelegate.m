@@ -18,11 +18,19 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     
-    NSArray *viewController = [NSArray arrayWithObjects:[[NGColoredViewController alloc] initWithNibName:nil bundle:nil],
-                               [[NGColoredViewController alloc] initWithNibName:nil bundle:nil],
-                               [[NGColoredViewController alloc] initWithNibName:nil bundle:nil],
-                               [[NGColoredViewController alloc] initWithNibName:nil bundle:nil],
-                               [[NGColoredViewController alloc] initWithNibName:nil bundle:nil],nil];
+    NGColoredViewController *vc1 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+    NGColoredViewController *vc2 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+    NGColoredViewController *vc3 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+    NGColoredViewController *vc4 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+    NGColoredViewController *vc5 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+    
+    vc1.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC1" image:nil];
+    vc2.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC2" image:nil];
+    vc3.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC3" image:nil];
+    vc4.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC4" image:nil];
+    vc5.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC5" image:nil];
+    
+    NSArray *viewController = [NSArray arrayWithObjects:vc1,vc2,vc3,vc4,vc5,nil];
     
     NGTabBarController *tabBarController = [[NGTabBarController alloc] initWithDelegate:self];
     
@@ -39,13 +47,5 @@
 #pragma mark - NGTabBarControllerDelegate
 ////////////////////////////////////////////////////////////////////////
 
-- (NGTabBarItem *)verticalTabBarController:(NGTabBarController *)tabBarController
-                            customizedItem:(NGTabBarItem *)item
-                         forViewController:(UIViewController *)viewController
-                                   atIndex:(NSUInteger)index {
-    item.textLabel.text = [NSString stringWithFormat:@"%d", index];
-    
-    return item;
-}
 
 @end

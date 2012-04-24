@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NGTabBarPosition.h"
 
-@interface NGTabBar : UITableView
+@interface NGTabBar : UIScrollView
+
+@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, assign) NSUInteger selectedItemIndex;
+@property (nonatomic, assign) NGTabBarPosition position;
+
+- (void)selectItemAtIndex:(NSUInteger)index;
+- (void)deselectSelectedItem;
 
 @end

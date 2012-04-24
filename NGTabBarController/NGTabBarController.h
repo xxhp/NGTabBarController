@@ -8,11 +8,13 @@
 
 #import "NGTabBarControllerDelegate.h"
 #import "NGTabBar.h"
-#import "NGTabBarItem.h"
 #import "NGTabBarControllerAnimation.h"
+#import "NGTabBarPosition.h"
+#import "NGTabBarItem.h"
+#import "UIViewController+NGTabBarItem.h"
 
 
-/** NGTabBarController is a vertical TabBar displayed on the left side of the device */
+/** NGTabBarController is a customized TabBar displayed on any side of the device */
 @interface NGTabBarController : UIViewController
 
 /** An array of the view controllers displayed by the tab bar */
@@ -27,8 +29,8 @@
 
 /** The tableView used to display all tab bar elements */
 @property (nonatomic, strong, readonly) NGTabBar *tabBar;
-/** The class of the tableViewCell of the tabBar, defaults to NGTabBarCell */
-@property (nonatomic, assign) Class tabBarItemClass;
+/** The postion of the tabBar on screen (top/left/bottom/right) */
+@property (nonatomic, assign) NGTabBarPosition tabBarPosition;
 
 /** The animation used when changing selected tabBarItem, default: none */
 @property (nonatomic, assign) NGTabBarControllerAnimation animation;

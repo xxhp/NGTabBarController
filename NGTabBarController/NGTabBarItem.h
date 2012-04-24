@@ -1,16 +1,18 @@
 //
-//  NGTabBarCell.h
+//  NGTabBarItem.h
 //  NGTabBarController
 //
-//  Created by Tretter Matthias on 14.02.12.
+//  Created by Tretter Matthias on 24.04.12.
 //  Copyright (c) 2012 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
-@class NGTabBar;
+#import <UIKit/UIKit.h>
 
-@interface NGTabBarItem : UITableViewCell
+@interface NGTabBarItem : UIControl
 
-+ (id)itemForTabBar:(NGTabBar *)tabBar;
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, copy) NSString *title;
 
++ (NGTabBarItem *)itemWithTitle:(NSString *)title image:(UIImage *)image;
 
 @end

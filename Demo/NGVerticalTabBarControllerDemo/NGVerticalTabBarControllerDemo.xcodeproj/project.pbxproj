@@ -288,7 +288,10 @@
 				HEADER_SEARCH_PATHS = "../../NGTabBarController/**";
 				INFOPLIST_FILE = "NGVerticalTabBarControllerDemo/NGVerticalTabBarControllerDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				OTHER_LDFLAGS = "-fobjc-arc";
+				OTHER_LDFLAGS = (
+					"-fobjc-arc",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -302,7 +305,10 @@
 				HEADER_SEARCH_PATHS = "../../NGTabBarController/**";
 				INFOPLIST_FILE = "NGVerticalTabBarControllerDemo/NGVerticalTabBarControllerDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				OTHER_LDFLAGS = "-fobjc-arc";
+				OTHER_LDFLAGS = (
+					"-fobjc-arc",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

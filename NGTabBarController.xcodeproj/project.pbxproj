@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B294ED81546C70B004E4A63 /* UIViewController+NGTabBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B294ED61546C70B004E4A63 /* UIViewController+NGTabBarItem.h */; };
+		9B294ED91546C70B004E4A63 /* UIViewController+NGTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B294ED71546C70B004E4A63 /* UIViewController+NGTabBarItem.m */; };
+		9B294EDC1546CB17004E4A63 /* NGTabBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B294EDA1546CB16004E4A63 /* NGTabBarItem.h */; };
+		9B294EDD1546CB17004E4A63 /* NGTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B294EDB1546CB17004E4A63 /* NGTabBarItem.m */; };
 		9B80B53114EA8F7100B83FA0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B80B53014EA8F7100B83FA0 /* Foundation.framework */; };
 		9B81DCFE153C758C007FEE73 /* NGTabBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B81DCF5153C758C007FEE73 /* NGTabBar.h */; };
 		9B81DCFF153C758C007FEE73 /* NGTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B81DCF6153C758C007FEE73 /* NGTabBar.m */; };
-		9B81DD00153C758C007FEE73 /* NGTabBarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B81DCF7153C758C007FEE73 /* NGTabBarItem.h */; };
-		9B81DD01153C758C007FEE73 /* NGTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B81DCF8153C758C007FEE73 /* NGTabBarItem.m */; };
 		9B81DD02153C758C007FEE73 /* NGTabBarController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B81DCF9153C758C007FEE73 /* NGTabBarController.h */; };
 		9B81DD03153C758C007FEE73 /* NGTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B81DCFA153C758C007FEE73 /* NGTabBarController.m */; };
 		9B81DD04153C758C007FEE73 /* NGTabBarControllerAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B81DCFB153C758C007FEE73 /* NGTabBarControllerAnimation.h */; };
@@ -20,12 +22,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9B294ED41546BBDB004E4A63 /* NGTabBarPosition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NGTabBarPosition.h; sourceTree = "<group>"; };
+		9B294ED61546C70B004E4A63 /* UIViewController+NGTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+NGTabBarItem.h"; sourceTree = "<group>"; };
+		9B294ED71546C70B004E4A63 /* UIViewController+NGTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+NGTabBarItem.m"; sourceTree = "<group>"; };
+		9B294EDA1546CB16004E4A63 /* NGTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTabBarItem.h; sourceTree = "<group>"; };
+		9B294EDB1546CB17004E4A63 /* NGTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGTabBarItem.m; sourceTree = "<group>"; };
 		9B80B52D14EA8F7100B83FA0 /* libNGTabBarController.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNGTabBarController.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B80B53014EA8F7100B83FA0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9B81DCF5153C758C007FEE73 /* NGTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTabBar.h; sourceTree = "<group>"; };
 		9B81DCF6153C758C007FEE73 /* NGTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGTabBar.m; sourceTree = "<group>"; };
-		9B81DCF7153C758C007FEE73 /* NGTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTabBarItem.h; sourceTree = "<group>"; };
-		9B81DCF8153C758C007FEE73 /* NGTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGTabBarItem.m; sourceTree = "<group>"; };
 		9B81DCF9153C758C007FEE73 /* NGTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTabBarController.h; sourceTree = "<group>"; };
 		9B81DCFA153C758C007FEE73 /* NGTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGTabBarController.m; sourceTree = "<group>"; };
 		9B81DCFB153C758C007FEE73 /* NGTabBarControllerAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTabBarControllerAnimation.h; sourceTree = "<group>"; };
@@ -75,13 +80,16 @@
 			children = (
 				9B81DCF5153C758C007FEE73 /* NGTabBar.h */,
 				9B81DCF6153C758C007FEE73 /* NGTabBar.m */,
-				9B81DCF7153C758C007FEE73 /* NGTabBarItem.h */,
-				9B81DCF8153C758C007FEE73 /* NGTabBarItem.m */,
 				9B81DCF9153C758C007FEE73 /* NGTabBarController.h */,
 				9B81DCFA153C758C007FEE73 /* NGTabBarController.m */,
 				9B81DCFB153C758C007FEE73 /* NGTabBarControllerAnimation.h */,
 				9B81DCFC153C758C007FEE73 /* NGTabBarControllerDelegate.h */,
+				9B294ED41546BBDB004E4A63 /* NGTabBarPosition.h */,
 				9B81DCFD153C758C007FEE73 /* Prefix.pch */,
+				9B294ED61546C70B004E4A63 /* UIViewController+NGTabBarItem.h */,
+				9B294ED71546C70B004E4A63 /* UIViewController+NGTabBarItem.m */,
+				9B294EDA1546CB16004E4A63 /* NGTabBarItem.h */,
+				9B294EDB1546CB17004E4A63 /* NGTabBarItem.m */,
 			);
 			path = NGTabBarController;
 			sourceTree = "<group>";
@@ -94,11 +102,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B81DCFE153C758C007FEE73 /* NGTabBar.h in Headers */,
-				9B81DD00153C758C007FEE73 /* NGTabBarItem.h in Headers */,
 				9B81DD02153C758C007FEE73 /* NGTabBarController.h in Headers */,
 				9B81DD04153C758C007FEE73 /* NGTabBarControllerAnimation.h in Headers */,
 				9B81DD05153C758C007FEE73 /* NGTabBarControllerDelegate.h in Headers */,
 				9B81DD06153C758C007FEE73 /* Prefix.pch in Headers */,
+				9B294ED81546C70B004E4A63 /* UIViewController+NGTabBarItem.h in Headers */,
+				9B294EDC1546CB17004E4A63 /* NGTabBarItem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,8 +163,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B81DCFF153C758C007FEE73 /* NGTabBar.m in Sources */,
-				9B81DD01153C758C007FEE73 /* NGTabBarItem.m in Sources */,
 				9B81DD03153C758C007FEE73 /* NGTabBarController.m in Sources */,
+				9B294ED91546C70B004E4A63 /* UIViewController+NGTabBarItem.m in Sources */,
+				9B294EDD1546CB17004E4A63 /* NGTabBarItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 #define kNGScaleDuration                      0.15f
 
 
-@interface NGTabBarController () <UITableViewDataSource, UITableViewDelegate> {
+@interface NGTabBarController () {
     // re-defined as mutable
     NSMutableArray *_viewControllers;
     
@@ -26,6 +26,7 @@
 
 // re-defined as read/write
 @property (nonatomic, strong, readwrite) NGTabBar *tabBar;
+@property (nonatomic, strong) NSArray *tabBarItems;
 /** the (computed) frame of the sub-viewcontrollers */
 @property (nonatomic, readonly) CGRect childViewControllerFrame;
 @property (nonatomic, assign) NSUInteger oldSelectedIndex;
@@ -37,7 +38,9 @@
 - (CGFloat)delegatedTabBarWidth;
 - (BOOL)delegatedDecisionIfWeShouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index;
 - (void)callDelegateDidSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index;
-- (CGFloat)delegatedHeightOfTabBarCellAtIndex:(NSUInteger)index;
+
+- (void)setupTabBarForPosition:(NGTabBarPosition)position;
+- (void)handleItemPressed:(id)sender;
 
 @end
 
@@ -48,9 +51,10 @@
 @synthesize selectedIndex = _selectedIndex;
 @synthesize delegate = _delegate;
 @synthesize tabBar = _tabBar;
-@synthesize tabBarItemClass = _tabBarCellClass;
+@synthesize tabBarPosition = _tabBarPosition;
 @synthesize animation = _animation;
 @synthesize animationDuration = _animationDuration;
+@synthesize tabBarItems = _tabBarItems;
 @synthesize oldSelectedIndex = _oldSelectedIndex;
 
 ////////////////////////////////////////////////////////////////////////
@@ -59,8 +63,6 @@
 
 - (id)initWithDelegate:(id<NGTabBarControllerDelegate>)delegate {
     if ((self = [super initWithNibName:nil bundle:nil])) {
-        _tabBarCellClass = [NGTabBarItem class];
-        
         _selectedIndex = NSNotFound;
         _oldSelectedIndex = NSNotFound;
         _animation = NGTabBarControllerAnimationNone;
@@ -87,16 +89,14 @@
     
     NSAssert(self.delegate != nil, @"No delegate set");
     
-    CGFloat width = [self delegatedTabBarWidth];
-    self.tabBar = [[NGTabBar alloc] initWithFrame:CGRectMake(0.f, 0.f, width, self.view.bounds.size.height) style:UITableViewStylePlain];
-    self.tabBar.dataSource = self;
-    self.tabBar.delegate = self;
+    self.tabBar = [[NGTabBar alloc] initWithFrame:CGRectZero];
+    self.tabBar.items = self.tabBarItems;
+    
+    [self setupTabBarForPosition:self.tabBarPosition];
     [self.view addSubview:self.tabBar];
 }
 
 - (void)viewDidUnload {
-    self.tabBar.dataSource = nil;
-    self.tabBar.delegate = nil;
     self.tabBar = nil;
     
     if (self.containmentAPISupported) {
@@ -112,12 +112,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.tabBar reloadData];
-    
     if (self.selectedIndex != NSNotFound) {
-        [self.tabBar selectRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]
-                                 animated:NO
-                           scrollPosition:UITableViewScrollPositionNone];
+        [self.tabBar selectItemAtIndex:self.selectedIndex];
     }
     
     if (!self.containmentAPISupported) {
@@ -241,6 +237,8 @@
             }
         }
         
+        self.tabBarItems = [viewControllers valueForKey:@"ng_tabBarItem"];
+        
         _viewControllers = [NSMutableArray arrayWithArray:viewControllers];
         
         CGRect childViewControllerFrame = self.childViewControllerFrame;
@@ -274,54 +272,29 @@
     }
 }
 
-////////////////////////////////////////////////////////////////////////
-#pragma mark - UITableViewDataSource
-////////////////////////////////////////////////////////////////////////
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (void)setTabBarPosition:(NGTabBarPosition)tabBarPosition {
+    self.tabBar.position = tabBarPosition;
+    [self.view setNeedsLayout];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.viewControllers.count;
+- (NGTabBarPosition)tabBarPosition {
+    return self.tabBar.position;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NGTabBarItem *cell = [self.tabBarItemClass itemForTabBar:self.tabBar];
-    UIViewController *viewController = [self.viewControllers objectAtIndex:indexPath.row];
-    
-    // give delegate the chance to customize cell
-    cell = [self.delegate verticalTabBarController:self
-                                    customizedItem:cell
-                                 forViewController:viewController
-                                           atIndex:indexPath.row];
-    
-    return cell;
-}
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark - UITableViewDelegate
-////////////////////////////////////////////////////////////////////////
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // ask the delegate if we can select the cell
-    if ([self delegatedDecisionIfWeShouldSelectViewController:[self.viewControllers objectAtIndex:indexPath.row] atIndex:indexPath.row]) {
-        return indexPath;
+- (void)setTabBarItems:(NSArray *)tabBarItems {
+    if (tabBarItems != _tabBarItems) {
+        for (NGTabBarItem *item in _tabBarItems) {
+            [item removeTarget:self action:@selector(handleItemPressed:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        _tabBarItems = tabBarItems;
+        
+        for (NGTabBarItem *item in _tabBarItems) {
+            [item addTarget:self action:@selector(handleItemPressed:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        self.tabBar.items = tabBarItems;
     }
-    
-    return nil;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // did the selection change?
-    if (indexPath.row != self.selectedIndex) {        
-        // updates the UI
-        self.selectedIndex = indexPath.row;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [self delegatedHeightOfTabBarCellAtIndex:[indexPath row]];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -330,15 +303,12 @@
 
 - (void)updateUI {
     if (self.selectedIndex != NSNotFound) {
-        NSIndexPath *newSelectedIndexPath = [NSIndexPath indexPathForRow:self.selectedIndex inSection:0];
         UIViewController *newSelectedViewController = self.selectedViewController;
-        [self.tabBar selectRowAtIndexPath:newSelectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        [self.tabBar selectItemAtIndex:self.selectedIndex];
         
         // show transition between old and new child viewcontroller
         if (self.oldSelectedIndex != NSNotFound) {
-            NSIndexPath *oldSelectedIndexPath = [NSIndexPath indexPathForRow:self.oldSelectedIndex inSection:0];
-            UIViewController *oldSelectedViewController = [self.viewControllers objectAtIndex:oldSelectedIndexPath.row];
-            [self.tabBar deselectRowAtIndexPath:oldSelectedIndexPath animated:NO];
+            UIViewController *oldSelectedViewController = [self.viewControllers objectAtIndex:self.oldSelectedIndex];
             
             if (self.containmentAPISupported) { 
                 // custom move animation
@@ -437,9 +407,29 @@
 
 - (CGRect)childViewControllerFrame {
     CGRect bounds = self.view.bounds;
-    CGRect childFrame = UIEdgeInsetsInsetRect(bounds, UIEdgeInsetsMake(0.f, [self delegatedTabBarWidth]+1.f, 0.f, 0.f));
+    UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
+
+    switch (self.tabBarPosition) {
+        case NGTabBarPositionTop:
+            edgeInsets = UIEdgeInsetsMake([self delegatedTabBarWidth]+1.f, 0.f, 0.f, 0.f);
+            break;
+            
+        case NGTabBarPositionRight:
+            edgeInsets = UIEdgeInsetsMake(0.f, 0.f, 0.f, [self delegatedTabBarWidth]+1.f);
+            break;
+            
+        case NGTabBarPositionBottom:
+            edgeInsets = UIEdgeInsetsMake(0.f, 0.f, [self delegatedTabBarWidth]+1.f, 0.f);
+            break;
+            
+        case NGTabBarPositionLeft:
+            edgeInsets = UIEdgeInsetsMake(0.f, [self delegatedTabBarWidth]+1.f, 0.f, 0.f);
+        default:
+            break;
+    }
     
-    return childFrame;
+    
+    return UIEdgeInsetsInsetRect(bounds, edgeInsets);
 }
 
 - (BOOL)containmentAPISupported {
@@ -484,9 +474,56 @@
     return animationOptions;
 }
 
+- (void)setupTabBarForPosition:(NGTabBarPosition)position {
+    CGRect frame = CGRectZero;
+    UIViewAutoresizing autoresizingMask = UIViewAutoresizingNone;
+    
+    // TODO:
+    CGFloat dimension = [self delegatedTabBarWidth];
+    
+    switch (position) {
+        case NGTabBarPositionTop: {
+            frame = CGRectMake(0.f, 0.f, self.view.bounds.size.width, dimension);
+            autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+            break;
+        }
+            
+        case NGTabBarPositionRight: {
+            frame = CGRectMake(self.view.bounds.size.width - dimension, 0.f, dimension, self.view.bounds.size.height);
+            autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin;
+            break;
+        }
+            
+        case NGTabBarPositionBottom: {
+            frame = CGRectMake(0.f, self.view.bounds.size.height - dimension, self.view.bounds.size.width, dimension);
+            autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+            break;
+        }
+            
+        case NGTabBarPositionLeft:
+        default: {
+            frame = CGRectMake(0.f, 0.f, dimension, self.view.bounds.size.height);
+            autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleRightMargin;
+            break;
+        }
+    }
+    
+    self.tabBar.frame = frame;
+    self.tabBar.autoresizingMask = autoresizingMask;
+}
+
+- (void)handleItemPressed:(id)sender {
+    NSInteger index = [self.tabBarItems indexOfObject:sender];
+    BOOL shouldSelect = [self delegatedDecisionIfWeShouldSelectViewController:[self.viewControllers objectAtIndex:index] atIndex:index];
+    
+    if (shouldSelect && index != self.selectedIndex) {
+        self.selectedIndex = index;
+    }
+}
+
 - (CGFloat)delegatedTabBarWidth {
     if (_delegateFlags.widthOfTabBar) {
-        return [self.delegate widthOfTabBarOfVerticalTabBarController:self];
+        return [self.delegate widthOfTabBarOfTabBarController:self];
     }
     
     // default width
@@ -495,7 +532,7 @@
 
 - (BOOL)delegatedDecisionIfWeShouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
     if (_delegateFlags.shouldSelectViewController) {
-        return [self.delegate verticalTabBarController:self shouldSelectViewController:viewController atIndex:index];
+        return [self.delegate tabBarController:self shouldSelectViewController:viewController atIndex:index];
     }
     
     // default: the view controller can be selected
@@ -504,17 +541,8 @@
 
 - (void)callDelegateDidSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
     if (_delegateFlags.didSelectViewController) {
-        [self.delegate verticalTabBarController:self didSelectViewController:viewController atIndex:index];
+        [self.delegate tabBarController:self didSelectViewController:viewController atIndex:index];
     }
-}
-
-- (CGFloat)delegatedHeightOfTabBarCellAtIndex:(NSUInteger)index {
-    if (_delegateFlags.heightForTabBarCellAtIndex) {
-        return [self.delegate heightForTabBarCell:self atIndex:index];
-    }
-    
-    // default cell height
-    return kNGTabBarCellDefaultHeight;
 }
 
 @end
