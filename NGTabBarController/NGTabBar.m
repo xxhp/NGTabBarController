@@ -1,5 +1,6 @@
 #import "NGTabBar.h"
 #import "NGTabBarItem.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @implementation NGTabBar
@@ -19,6 +20,9 @@
         
         _selectedItemIndex = 0;
         _position = kNGTabBarPositionDefault;
+        
+        self.layer.borderColor = [UIColor redColor].CGColor;
+        self.layer.borderWidth = 2.f;
     }
     
     return self;

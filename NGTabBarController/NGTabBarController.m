@@ -68,6 +68,7 @@
         _animation = NGTabBarControllerAnimationNone;
         _animationDuration = kNGDefaultAnimationDuration;
         _moveScaleAnimationActive = NO;
+        _tabBarPosition = kNGTabBarPositionDefault;
         
         // need to call setter here
         self.delegate = delegate;
@@ -91,6 +92,7 @@
     
     self.tabBar = [[NGTabBar alloc] initWithFrame:CGRectZero];
     self.tabBar.items = self.tabBarItems;
+    self.tabBar.position = self.tabBarPosition;
     
     [self setupTabBarForPosition:self.tabBarPosition];
     [self.view addSubview:self.tabBar];
@@ -273,12 +275,13 @@
 }
 
 - (void)setTabBarPosition:(NGTabBarPosition)tabBarPosition {
-    self.tabBar.position = tabBarPosition;
-    [self.view setNeedsLayout];
-}
-
-- (NGTabBarPosition)tabBarPosition {
-    return self.tabBar.position;
+    if (tabBarPosition != _tabBarPosition) {
+        _tabBarPosition = tabBarPosition;
+        self.tabBar.position = tabBarPosition;
+        
+        [self setupTabBarForPosition:tabBarPosition];
+        [self.view setNeedsLayout];
+    }
 }
 
 - (void)setTabBarItems:(NSArray *)tabBarItems {

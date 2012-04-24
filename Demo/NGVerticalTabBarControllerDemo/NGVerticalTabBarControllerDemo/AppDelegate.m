@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "NGTestTabBarController.h"
 #import "NGColoredViewController.h"
 
 @implementation AppDelegate
@@ -32,7 +33,7 @@
     
     NSArray *viewController = [NSArray arrayWithObjects:vc1,vc2,vc3,vc4,vc5,nil];
     
-    NGTabBarController *tabBarController = [[NGTabBarController alloc] initWithDelegate:self];
+    NGTabBarController *tabBarController = [[NGTestTabBarController alloc] initWithDelegate:self];
     
     tabBarController.animation = NGTabBarControllerAnimationMoveAndScale;
     tabBarController.viewControllers = viewController;
@@ -42,10 +43,6 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
-
-////////////////////////////////////////////////////////////////////////
-#pragma mark - NGTabBarControllerDelegate
-////////////////////////////////////////////////////////////////////////
 
 
 @end

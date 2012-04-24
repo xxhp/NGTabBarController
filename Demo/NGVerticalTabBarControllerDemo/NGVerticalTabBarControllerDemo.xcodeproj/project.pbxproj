@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B294EE01546DA96004E4A63 /* NGTestTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B294EDF1546DA96004E4A63 /* NGTestTabBarController.m */; };
 		9BA31574153C76CE002E7628 /* libNGTabBarController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA3156F153C769C002E7628 /* libNGTabBarController.a */; };
 		9BEA2B5714ED1B4A00AEE977 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */; };
 		9BEA2B5914ED1B4A00AEE977 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5814ED1B4A00AEE977 /* Foundation.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B294EDE1546DA96004E4A63 /* NGTestTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTestTabBarController.h; sourceTree = "<group>"; };
+		9B294EDF1546DA96004E4A63 /* NGTestTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGTestTabBarController.m; sourceTree = "<group>"; };
 		9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NGTabBarController.xcodeproj; path = ../../NGTabBarController.xcodeproj; sourceTree = "<group>"; };
 		9BEA2B5214ED1B4A00AEE977 /* NGVerticalTabBarControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NGVerticalTabBarControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -108,6 +111,8 @@
 				9BEA2B6614ED1B4A00AEE977 /* AppDelegate.m */,
 				9BEA2B8014ED1BC300AEE977 /* NGColoredViewController.h */,
 				9BEA2B8114ED1BC300AEE977 /* NGColoredViewController.m */,
+				9B294EDE1546DA96004E4A63 /* NGTestTabBarController.h */,
+				9B294EDF1546DA96004E4A63 /* NGTestTabBarController.m */,
 				9BEA2B5D14ED1B4A00AEE977 /* Supporting Files */,
 			);
 			path = NGVerticalTabBarControllerDemo;
@@ -206,6 +211,7 @@
 				9BEA2B6314ED1B4A00AEE977 /* main.m in Sources */,
 				9BEA2B6714ED1B4A00AEE977 /* AppDelegate.m in Sources */,
 				9BEA2B8214ED1BC300AEE977 /* NGColoredViewController.m in Sources */,
+				9B294EE01546DA96004E4A63 /* NGTestTabBarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
