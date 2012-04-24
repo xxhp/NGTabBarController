@@ -1,0 +1,41 @@
+<img src="http://office.nousguide.com/nouslogosmall.png" alt="NOUSguide Inc." title="NOUSguide Inc." title" style="display:block; margin: 10px auto 30px auto;" class="center">
+
+# NGTabBarController
+
+A custom TabBarController which can be positioned on the bottom, top, left or top. Utilizes iOS 5 Containment API if possible, but works on iOS 4 too.
+
+
+## Usage
+
+``` objective-c
+NGColoredViewController *vc1 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+NGColoredViewController *vc2 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+NGColoredViewController *vc3 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+NGColoredViewController *vc4 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+NGColoredViewController *vc5 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
+
+vc1.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC1" image:nil];
+vc2.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC2" image:nil];
+vc3.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC3" image:nil];
+vc4.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC4" image:nil];
+vc5.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC5" image:nil];
+
+NSArray *viewController = [NSArray arrayWithObjects:vc1,vc2,vc3,vc4,vc5,nil];
+
+NGTabBarController *tabBarController = [[NGTestTabBarController alloc] initWithDelegate:self];
+
+tabBarController.animation = NGTabBarControllerAnimationMoveAndScale;
+tabBarController.viewControllers = viewController;
+self.window.rootViewController = tabBarController;
+```
+
+Just have a look inside the provided Demo-Application.
+
+## Credits
+
+NGVaryingGridView was created by [Matthias Tretter](https://github.com/myell0w/) ([@myell0w](http://twitter.com/myell0w)).
+
+## License
+
+NGPageControl is available under the MIT license. See the LICENSE file for more info.
+For usage without attribution contact [NOUSguide](mailto:info@nousguide.com).
