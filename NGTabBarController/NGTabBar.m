@@ -2,11 +2,18 @@
 #import "NGTabBarItem.h"
 
 
+@interface NGTabBar ()
+
+- (CGFloat)dimensionUsedOfItem:(NGTabBarItem *)item;
+
+@end
+
 @implementation NGTabBar
 
 @synthesize items = _items;
 @synthesize selectedItemIndex = _selectedItemIndex;
 @synthesize position = _position;
+@synthesize centerItems = _centerItems;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Lifecycle
@@ -19,6 +26,7 @@
         self.alwaysBounceHorizontal = NO;
         
         _selectedItemIndex = 0;
+        _centerItems = NO;
         _position = kNGTabBarPositionDefault;
     }
     
@@ -34,6 +42,21 @@
     
     CGFloat currentFrameLeft = 0.f;
     CGFloat currentFrameTop = 0.f;
+    
+    if (self.centerItems) {
+        CGFloat totalDimension = 0.f;
+        
+        // compute total dimension
+        for (NGTabBarItem *item in self.items) {
+            totalDimension += [self dimensionUsedOfItem:item];
+        }
+        
+        if (NGTabBarIsVertical(self.position)) {
+            currentFrameTop = floorf((self.bounds.size.height-totalDimension)/2.f);
+        } else {
+            currentFrameLeft = floorf((self.bounds.size.width-totalDimension)/2.f);
+        }
+    }
     
     for (NGTabBarItem *item in self.items) {
         // re-position item
@@ -101,6 +124,18 @@
         
         selectedItem.selected = NO;
         self.selectedItemIndex = NSNotFound;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+#pragma mark - Private
+////////////////////////////////////////////////////////////////////////
+
+- (CGFloat)dimensionUsedOfItem:(NGTabBarItem *)item {
+    if (NGTabBarIsVertical(self.position)) {
+        return item.frame.size.height;
+    } else {
+        return item.frame.size.width;  
     }
 }
 

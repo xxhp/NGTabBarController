@@ -15,6 +15,8 @@
 @property (nonatomic, assign) NSUInteger selectedItemIndex;
 @property (nonatomic, assign) NGTabBarPosition position;
 
+@property (nonatomic, assign) BOOL centerItems;
+
 - (void)selectItemAtIndex:(NSUInteger)index;
 - (void)deselectSelectedItem;
 
