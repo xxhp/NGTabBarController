@@ -15,4 +15,6 @@
 
 + (NGTabBarItem *)itemWithTitle:(NSString *)title image:(UIImage *)image;
 
+- (void)setSize:(CGSize)size;
+
 @end

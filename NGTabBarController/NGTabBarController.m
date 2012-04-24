@@ -15,8 +15,6 @@
     
     // flags for methods implemented in the delegate
     struct {
-        unsigned int widthOfTabBar:1;
-        unsigned int heightForTabBarCellAtIndex:1;
 		unsigned int shouldSelectViewController:1;
 		unsigned int didSelectViewController:1;
 	} _delegateFlags;
@@ -36,12 +34,14 @@
 - (void)updateUI;
 - (void)layout;
 
-- (CGFloat)delegatedTabBarWidth;
 - (BOOL)delegatedDecisionIfWeShouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index;
 - (void)callDelegateDidSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index;
+- (CGSize)delegatedSizeOfItemForViewController:(UIViewController *)viewController atIndex:(NSUInteger)index position:(NGTabBarPosition)position;
 
 - (void)setupTabBarForPosition:(NGTabBarPosition)position;
 - (void)handleItemPressed:(id)sender;
+
+- (CGFloat)widthOrHeightOfTabBarForPosition:(NGTabBarPosition)position;
 
 @end
 
@@ -192,8 +192,6 @@
         _delegate = delegate;
         
         // update delegate flags
-        _delegateFlags.widthOfTabBar = [delegate respondsToSelector:@selector(widthOfTabBarOfVerticalTabBarController:)];
-        _delegateFlags.heightForTabBarCellAtIndex = [delegate respondsToSelector:@selector(heightForTabBarCell:atIndex:)];
         _delegateFlags.shouldSelectViewController = [delegate respondsToSelector:@selector(verticalTabBarController:shouldSelectViewController:atIndex:)];
         _delegateFlags.didSelectViewController = [delegate respondsToSelector:@selector(verticalTabBarController:didSelectViewController:atIndex:)];
     }
@@ -283,13 +281,13 @@
 - (void)setTabBarItems:(NSArray *)tabBarItems {
     if (tabBarItems != _tabBarItems) {
         for (NGTabBarItem *item in _tabBarItems) {
-            [item removeTarget:self action:@selector(handleItemPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [item removeTarget:self action:@selector(handleItemPressed:) forControlEvents:UIControlEventTouchDown];
         }
         
         _tabBarItems = tabBarItems;
         
         for (NGTabBarItem *item in _tabBarItems) {
-            [item addTarget:self action:@selector(handleItemPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [item addTarget:self action:@selector(handleItemPressed:) forControlEvents:UIControlEventTouchDown];
         }
         
         self.tabBar.items = tabBarItems;
@@ -435,22 +433,23 @@
 - (CGRect)childViewControllerFrame {
     CGRect bounds = self.view.bounds;
     UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
+    CGFloat inset = [self widthOrHeightOfTabBarForPosition:self.tabBarPosition];
     
     switch (self.tabBarPosition) {
         case NGTabBarPositionTop:
-            edgeInsets = UIEdgeInsetsMake([self delegatedTabBarWidth]+1.f, 0.f, 0.f, 0.f);
+            edgeInsets = UIEdgeInsetsMake(inset, 0.f, 0.f, 0.f);
             break;
             
         case NGTabBarPositionRight:
-            edgeInsets = UIEdgeInsetsMake(0.f, 0.f, 0.f, [self delegatedTabBarWidth]+1.f);
+            edgeInsets = UIEdgeInsetsMake(0.f, 0.f, 0.f, inset);
             break;
             
         case NGTabBarPositionBottom:
-            edgeInsets = UIEdgeInsetsMake(0.f, 0.f, [self delegatedTabBarWidth]+1.f, 0.f);
+            edgeInsets = UIEdgeInsetsMake(0.f, 0.f, inset, 0.f);
             break;
             
         case NGTabBarPositionLeft:
-            edgeInsets = UIEdgeInsetsMake(0.f, [self delegatedTabBarWidth]+1.f, 0.f, 0.f);
+            edgeInsets = UIEdgeInsetsMake(0.f, inset, 0.f, 0.f);
         default:
             break;
     }
@@ -504,9 +503,7 @@
 - (void)setupTabBarForPosition:(NGTabBarPosition)position {
     CGRect frame = CGRectZero;
     UIViewAutoresizing autoresizingMask = UIViewAutoresizingNone;
-    
-    // TODO:
-    CGFloat dimension = [self delegatedTabBarWidth];
+    CGFloat dimension = [self widthOrHeightOfTabBarForPosition:position];
     
     switch (position) {
         case NGTabBarPositionTop: {
@@ -537,6 +534,13 @@
     
     self.tabBar.frame = frame;
     self.tabBar.autoresizingMask = autoresizingMask;
+    
+    for (NSUInteger index = 0; index < self.viewControllers.count; index++) {
+        UIViewController *viewController = [self.viewControllers objectAtIndex:index];
+        NGTabBarItem *item = [self.tabBarItems objectAtIndex:index];
+        
+        [item setSize:[self delegatedSizeOfItemForViewController:viewController atIndex:index position:position]];
+    }
 }
 
 - (void)handleItemPressed:(id)sender {
@@ -548,13 +552,21 @@
     }
 }
 
-- (CGFloat)delegatedTabBarWidth {
-    if (_delegateFlags.widthOfTabBar) {
-        return [self.delegate widthOfTabBarOfTabBarController:self];
+- (CGFloat)widthOrHeightOfTabBarForPosition:(NGTabBarPosition)position {
+    CGFloat dimension = kNGTabBarControllerDefaultWidth;
+    
+    // first item is responsible for dimension of tabBar, all must be equal (will not be checked)
+    if (self.viewControllers.count > 0) {
+        CGSize size = [self delegatedSizeOfItemForViewController:[self.viewControllers objectAtIndex:0] atIndex:0 position:position];
+        
+        if (NGTabBarIsVertical(position)) {
+            dimension = size.width;
+        } else {
+            dimension = size.height;
+        }
     }
     
-    // default width
-    return kNGTabBarControllerDefaultWidth;
+    return dimension;
 }
 
 - (BOOL)delegatedDecisionIfWeShouldSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index {
@@ -570,6 +582,10 @@
     if (_delegateFlags.didSelectViewController) {
         [self.delegate tabBarController:self didSelectViewController:viewController atIndex:index];
     }
+}
+
+- (CGSize)delegatedSizeOfItemForViewController:(UIViewController *)viewController atIndex:(NSUInteger)index position:(NGTabBarPosition)position {
+    return [self.delegate tabBarController:self sizeOfItemForViewController:viewController atIndex:index position:position];
 }
 
 @end

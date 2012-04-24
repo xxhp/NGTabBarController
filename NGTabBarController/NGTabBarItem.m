@@ -55,6 +55,20 @@
 }
 
 ////////////////////////////////////////////////////////////////////////
+#pragma mark - UIControl
+////////////////////////////////////////////////////////////////////////
+
+- (void)setSelected:(BOOL)selected {
+    [super setSelected:selected];
+    
+    if (selected) {
+        self.backgroundColor = [UIColor greenColor];
+    } else {
+        self.backgroundColor = [UIColor redColor];
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
 #pragma mark - NGTabBarItem
 ////////////////////////////////////////////////////////////////////////
 
@@ -74,6 +88,12 @@
 
 - (NSString *)title {
     return self.titleLabel.text;
+}
+
+- (void)setSize:(CGSize)size {
+    CGRect frame = self.frame;
+    frame.size = size;
+    self.frame = frame;
 }
 
 @end

@@ -6,15 +6,22 @@
 //  Copyright (c) 2012 NOUS Wissensmanagement GmbH. All rights reserved.
 //
 
+#import "NGTabBarPosition.h"
+
 @class NGTabBarController;
 @class NGTabBarItem;
 
 @protocol NGTabBarControllerDelegate <NSObject>
 
-@optional
+@required
 
-/** Asks the delegate for the width of the UITableView that acts as the tabBar, if the tabBar is displayed at the left/right */
-- (CGFloat)widthOfTabBarOfTabBarController:(NGTabBarController *)tabBarController;
+/** Asks the delegate for the size of the given item */
+- (CGSize)tabBarController:(NGTabBarController *)tabBarController
+sizeOfItemForViewController:(UIViewController *)viewController
+                   atIndex:(NSUInteger)index
+                  position:(NGTabBarPosition)position;
+
+@optional
 
 /** Asks the delegate whether the specified view controller should be made active. */
 - (BOOL)tabBarController:(NGTabBarController *)tabBarController 

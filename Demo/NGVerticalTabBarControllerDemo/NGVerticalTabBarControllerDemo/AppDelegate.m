@@ -44,5 +44,20 @@
     return YES;
 }
 
+////////////////////////////////////////////////////////////////////////
+#pragma mark - NGTabBarControllerDelegate
+////////////////////////////////////////////////////////////////////////
+
+- (CGSize)tabBarController:(NGTabBarController *)tabBarController 
+sizeOfItemForViewController:(UIViewController *)viewController
+                   atIndex:(NSUInteger)index 
+                  position:(NGTabBarPosition)position {
+    if (NGTabBarIsVertical(position)) {
+        return CGSizeMake(150.f, 60.f);
+    } else {
+        return CGSizeMake(60.f, 60.f);
+    }
+}
+
 
 @end

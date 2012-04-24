@@ -1,6 +1,5 @@
 #import "NGTabBar.h"
 #import "NGTabBarItem.h"
-#import <QuartzCore/QuartzCore.h>
 
 
 @implementation NGTabBar
@@ -17,12 +16,10 @@
     if ((self = [super initWithFrame:frame])) {
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
+        self.alwaysBounceHorizontal = NO;
         
         _selectedItemIndex = 0;
         _position = kNGTabBarPositionDefault;
-        
-        self.layer.borderColor = [UIColor redColor].CGColor;
-        self.layer.borderWidth = 2.f;
     }
     
     return self;
@@ -64,7 +61,6 @@
         _items = items;
         
         for (NGTabBarItem *item in _items) {
-            item.frame = CGRectMake(0.f, 0.f, 44.f, 44.f);
             [self addSubview:item];
         }
         
@@ -75,6 +71,12 @@
 - (void)setPosition:(NGTabBarPosition)position {
     if (position != _position) {
         _position = position;
+        
+        if (NGTabBarIsVertical(position)) {
+            self.alwaysBounceVertical = YES;
+        } else {
+            self.alwaysBounceVertical = NO;
+        }
         
         // TODO: re-compute contentSize
         

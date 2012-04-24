@@ -84,12 +84,12 @@
 				9B81DCFA153C758C007FEE73 /* NGTabBarController.m */,
 				9B81DCFB153C758C007FEE73 /* NGTabBarControllerAnimation.h */,
 				9B81DCFC153C758C007FEE73 /* NGTabBarControllerDelegate.h */,
+				9B294EDA1546CB16004E4A63 /* NGTabBarItem.h */,
+				9B294EDB1546CB17004E4A63 /* NGTabBarItem.m */,
 				9B294ED41546BBDB004E4A63 /* NGTabBarPosition.h */,
 				9B81DCFD153C758C007FEE73 /* Prefix.pch */,
 				9B294ED61546C70B004E4A63 /* UIViewController+NGTabBarItem.h */,
 				9B294ED71546C70B004E4A63 /* UIViewController+NGTabBarItem.m */,
-				9B294EDA1546CB16004E4A63 /* NGTabBarItem.h */,
-				9B294EDB1546CB17004E4A63 /* NGTabBarItem.m */,
 			);
 			path = NGTabBarController;
 			sourceTree = "<group>";
