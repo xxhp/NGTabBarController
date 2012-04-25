@@ -4,7 +4,7 @@
 
 @interface NGTabBar ()
 
-- (CGFloat)dimensionUsedOfItem:(NGTabBarItem *)item;
+- (CGFloat)dimensionToBeConsideredOfItem:(NGTabBarItem *)item;
 
 @end
 
@@ -13,7 +13,8 @@
 @synthesize items = _items;
 @synthesize selectedItemIndex = _selectedItemIndex;
 @synthesize position = _position;
-@synthesize centerItems = _centerItems;
+@synthesize layoutStrategy = _layoutStrategy;
+@synthesize itemPadding = _itemPadding;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Lifecycle
@@ -27,7 +28,8 @@
         self.clipsToBounds = YES;
         
         _selectedItemIndex = 0;
-        _centerItems = NO;
+        _layoutStrategy = NGTabBarLayoutStrategyStrungTogether;
+        _itemPadding = 0.f;
         _position = kNGTabBarPositionDefault;
     }
     
@@ -43,33 +45,59 @@
     
     CGFloat currentFrameLeft = 0.f;
     CGFloat currentFrameTop = 0.f;
+    CGFloat totalDimension = 0.f;
+    // we change item padding in strategy evenly distributed but don't want to change iVar
+    CGFloat appliedItemPadding = self.itemPadding;
     
-    if (self.centerItems) {
-        CGFloat totalDimension = 0.f;
-        
-        // compute total dimension
+    if (self.layoutStrategy == NGTabBarLayoutStrategyEvenlyDistributed || self.layoutStrategy == NGTabBarLayoutStrategyCentered) {
+        // compute total dimension needed
         for (NGTabBarItem *item in self.items) {
-            totalDimension += [self dimensionUsedOfItem:item];
+            totalDimension += [self dimensionToBeConsideredOfItem:item];
+            
+            // we don't take padding only into account if we want to evenly distribute items
+            if (self.layoutStrategy != NGTabBarLayoutStrategyEvenlyDistributed) {
+                totalDimension += self.itemPadding;
+            }
         }
         
-        if (NGTabBarIsVertical(self.position)) {
-            currentFrameTop = floorf((self.bounds.size.height-totalDimension)/2.f);
-        } else {
-            currentFrameLeft = floorf((self.bounds.size.width-totalDimension)/2.f);
+        // for evenly distributed items we calculate a new item padding
+        if (self.layoutStrategy == NGTabBarLayoutStrategyEvenlyDistributed) {
+            // the total padding needed for the whole tabBar
+            CGFloat totalPadding = NGTabBarIsVertical(self.position) ? self.bounds.size.height - totalDimension : self.bounds.size.width - totalDimension;
+            
+            // we apply the padding (items.count - 1) times (always between two items)
+            if (self.items.count > 1) {
+                appliedItemPadding = MAX(0.f,totalPadding / (self.items.count - 1));
+            }
+        }
+        
+        else if (self.layoutStrategy == NGTabBarLayoutStrategyCentered) {
+            // we only add padding between icons but we added it for each item in the loop above
+            totalDimension -= appliedItemPadding;
+            
+            if (NGTabBarIsVertical(self.position)) {
+                currentFrameTop = floorf((self.bounds.size.height-totalDimension)/2.f);
+            } else {
+                currentFrameLeft = floorf((self.bounds.size.width-totalDimension)/2.f);
+            }
         }
     }
     
+    // re-position each item starting from current top/left
     for (NGTabBarItem *item in self.items) {
-        // re-position item
         CGRect frame = item.frame;
+
         frame.origin.y = currentFrameTop;
         frame.origin.x = currentFrameLeft;
         item.frame = frame;
         
+        // move to next item position
         if (NGTabBarIsVertical(self.position)) {
             currentFrameTop += frame.size.height;
+            currentFrameTop += appliedItemPadding;
         } else {
             currentFrameLeft += frame.size.width;  
+            currentFrameLeft += appliedItemPadding;
         }
     }
 }
@@ -132,7 +160,7 @@
 #pragma mark - Private
 ////////////////////////////////////////////////////////////////////////
 
-- (CGFloat)dimensionUsedOfItem:(NGTabBarItem *)item {
+- (CGFloat)dimensionToBeConsideredOfItem:(NGTabBarItem *)item {
     if (NGTabBarIsVertical(self.position)) {
         return item.frame.size.height;
     } else {

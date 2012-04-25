@@ -91,7 +91,6 @@
     
     NSAssert(self.delegate != nil, @"No delegate set");
     
-    self.tabBar = [[NGTabBar alloc] initWithFrame:CGRectZero];
     self.tabBar.items = self.tabBarItems;
     self.tabBar.position = self.tabBarPosition;
     
@@ -186,6 +185,14 @@
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - NGTabBarController
 ////////////////////////////////////////////////////////////////////////
+
+- (NGTabBar *)tabBar {
+    if (_tabBar == nil) {
+        _tabBar = [[NGTabBar alloc] initWithFrame:CGRectZero];
+    }
+    
+    return _tabBar;
+}
 
 - (void)setDelegate:(id<NGTabBarControllerDelegate>)delegate {
     if (delegate != _delegate) {
@@ -416,6 +423,8 @@
                 [self.view addSubview:newSelectedViewController.view];
             }
         }
+    } else {
+        [self.tabBar deselectSelectedItem];
     }
 }
 

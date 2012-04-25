@@ -9,13 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "NGTabBarPosition.h"
 
+typedef enum {
+    NGTabBarLayoutStrategyStrungTogether        = 0,
+    NGTabBarLayoutStrategyEvenlyDistributed,
+    NGTabBarLayoutStrategyCentered
+} NGTabBarLayoutStrategy;
+
+
 @interface NGTabBar : UIScrollView
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, assign) NSUInteger selectedItemIndex;
 @property (nonatomic, assign) NGTabBarPosition position;
-
-@property (nonatomic, assign) BOOL centerItems;
+@property (nonatomic, assign) NGTabBarLayoutStrategy layoutStrategy;
+/** the padding to apply between items, not taken into account when layoutStrategy is EvenlyDistributed */
+@property (nonatomic, assign) CGFloat itemPadding;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
 - (void)deselectSelectedItem;
