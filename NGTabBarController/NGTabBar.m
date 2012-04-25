@@ -24,6 +24,7 @@
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
         self.alwaysBounceHorizontal = NO;
+        self.clipsToBounds = YES;
         
         _selectedItemIndex = 0;
         _centerItems = NO;
