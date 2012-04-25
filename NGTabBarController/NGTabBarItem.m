@@ -4,6 +4,7 @@
 #define kNGDefaultTintColor                 [UIColor colorWithRed:41.0/255.0 green:147.0/255.0 blue:239.0/255.0 alpha:1.0]
 #define kNGDefaultTitleColor                [UIColor darkGrayColor]
 #define kNGDefaultSelectedTitleColor        [UIColor whiteColor]
+#define kNGImageOffset                       5.f
 
 @interface NGTabBarItem () {
     BOOL _selectedByUser;
@@ -59,11 +60,9 @@
     [super layoutSubviews];
     
     if (self.image != nil) {
-        CGRect textLabelFrame = CGRectMake(0.f, self.bounds.size.height-self.titleLabel.font.lineHeight,
-                                           self.bounds.size.width,
-                                           self.titleLabel.font.lineHeight);
+        CGFloat textTop = floor((self.bounds.size.height - self.image.size.height)/2.f) - kNGImageOffset + self.image.size.height + 2.f;
         
-        self.titleLabel.frame = textLabelFrame;
+        self.titleLabel.frame = CGRectMake(0.f, textTop, self.bounds.size.width, self.titleLabel.font.lineHeight);
     } else {
         self.titleLabel.frame = self.bounds;
     }
@@ -77,13 +76,13 @@
         CGContextSaveGState(context);
         
         // flip the coordinates system
-        CGContextTranslateCTM(context, 0.0, bounds.size.height);
-        CGContextScaleCTM(context, 1.0, -1.0);
+        CGContextTranslateCTM(context, 0.f, bounds.size.height);
+        CGContextScaleCTM(context, 1.f, -1.f);
         
         // draw an image in the center of the cell (offset to the top)
         CGSize imageSize = self.image.size;
-        CGRect imageRect = CGRectMake(floorf(((bounds.size.width-imageSize.width)/2.0)),
-                                      floorf(((bounds.size.height-imageSize.height)/2.0)) + 5.f,
+        CGRect imageRect = CGRectMake(floorf(((bounds.size.width-imageSize.width)/2.f)),
+                                      floorf(((bounds.size.height-imageSize.height)/2.f)) + kNGImageOffset,
                                       imageSize.width,
                                       imageSize.height);
         
