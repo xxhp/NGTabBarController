@@ -302,6 +302,24 @@
     }
 }
 
+- (BOOL)tabBarHidden {
+    return self.tabBar.hidden;
+}
+
+- (void)setTabBarHidden:(BOOL)tabBarHidden {
+    [self setTabBarHidden:tabBarHidden animated:NO];
+}
+
+- (void)setTabBarHidden:(BOOL)tabBarHidden animated:(BOOL)animated {
+    if (animated) {
+        // TODO:
+    } else {
+        self.tabBar.hidden = YES;
+        self.selectedViewController.view.frame = self.childViewControllerFrame;
+        [self layout];
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Private
 ////////////////////////////////////////////////////////////////////////
@@ -563,6 +581,10 @@
 }
 
 - (CGFloat)widthOrHeightOfTabBarForPosition:(NGTabBarPosition)position {
+    if (self.tabBarHidden) {
+        return 0.f;
+    }
+    
     CGFloat dimension = kNGTabBarControllerDefaultWidth;
     
     // first item is responsible for dimension of tabBar, all must be equal (will not be checked)

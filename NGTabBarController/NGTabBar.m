@@ -128,31 +128,33 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
-    CGRect bounds = self.bounds;
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGPoint start;
-    CGPoint end;
-    
-    // draw gradient
-    CGContextSaveGState(context);
-    CGContextClipToRect(context, bounds);
-	
-    if (self.position == NGTabBarPositionBottom) {
-        start = CGPointMake(bounds.origin.x, bounds.origin.y);
-        end = CGPointMake(bounds.origin.x, bounds.origin.y + bounds.size.height);
-    } else if (self.position == NGTabBarPositionTop) {
-        start = CGPointMake(bounds.origin.x, bounds.origin.y + bounds.size.height);
-        end = CGPointMake(bounds.origin.x, bounds.origin.y);
-    } else if (self.position == NGTabBarPositionLeft) {
-        start = CGPointMake(bounds.origin.x + bounds.size.width, bounds.origin.y);
-        end = CGPointMake(bounds.origin.x, bounds.origin.y);
-    } else if (self.position == NGTabBarPositionRight) {
-        start = CGPointMake(bounds.origin.x, bounds.origin.y);
-        end = CGPointMake(bounds.origin.x + bounds.size.width, bounds.origin.y);
+    if (self.backgroundImage == nil) {
+        CGRect bounds = self.bounds;
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        CGPoint start;
+        CGPoint end;
+        
+        // draw gradient
+        CGContextSaveGState(context);
+        CGContextClipToRect(context, bounds);
+        
+        if (self.position == NGTabBarPositionBottom) {
+            start = CGPointMake(bounds.origin.x, bounds.origin.y);
+            end = CGPointMake(bounds.origin.x, bounds.origin.y + bounds.size.height);
+        } else if (self.position == NGTabBarPositionTop) {
+            start = CGPointMake(bounds.origin.x, bounds.origin.y + bounds.size.height);
+            end = CGPointMake(bounds.origin.x, bounds.origin.y);
+        } else if (self.position == NGTabBarPositionLeft) {
+            start = CGPointMake(bounds.origin.x + bounds.size.width, bounds.origin.y);
+            end = CGPointMake(bounds.origin.x, bounds.origin.y);
+        } else if (self.position == NGTabBarPositionRight) {
+            start = CGPointMake(bounds.origin.x, bounds.origin.y);
+            end = CGPointMake(bounds.origin.x + bounds.size.width, bounds.origin.y);
+        }
+        
+        CGContextDrawLinearGradient(context, _gradientRef, start, end, 0);
+        CGContextRestoreGState(context);
     }
-	
-    CGContextDrawLinearGradient(context, _gradientRef, start, end, 0);
-    CGContextRestoreGState(context);
 }
 
 ////////////////////////////////////////////////////////////////////////
