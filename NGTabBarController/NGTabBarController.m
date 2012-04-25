@@ -248,6 +248,7 @@
             
             viewController.view.frame = childViewControllerFrame;
             viewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+            viewController.view.clipsToBounds = YES;
         }
         
         if (self.selectedIndex == NSNotFound && _viewControllers.count > 0) {
