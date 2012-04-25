@@ -2,7 +2,7 @@
 
 
 #define kNGDefaultTintColor                 [UIColor colorWithRed:41.0/255.0 green:147.0/255.0 blue:239.0/255.0 alpha:1.0]
-#define kNGDefaultTitleColor                [UIColor darkGrayColor]
+#define kNGDefaultTitleColor                [UIColor lightGrayColor]
 #define kNGDefaultSelectedTitleColor        [UIColor whiteColor]
 #define kNGImageOffset                       5.f
 
@@ -39,6 +39,8 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+        self.backgroundColor = [UIColor clearColor];
+        
         _selectedByUser = NO;
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -141,9 +143,9 @@
     _selectedByUser = selected;
     
     if (selected) {
-        self.titleLabel.textColor = [UIColor whiteColor];
+        self.titleLabel.textColor = self.selectedTitleColor;
     } else {
-        self.titleLabel.textColor = [UIColor lightGrayColor];
+        self.titleLabel.textColor = self.titleColor;
     }
     
     [self setNeedsDisplay];

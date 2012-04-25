@@ -25,6 +25,11 @@ typedef enum {
 /** the padding to apply between items, not taken into account when layoutStrategy is EvenlyDistributed */
 @property (nonatomic, assign) CGFloat itemPadding;
 
+/** defaults to black */
+@property (nonatomic, strong) UIColor *tintColor;
+/** defaults to nil */
+@property (nonatomic, strong) UIImage *backgroundImage;
+
 - (void)selectItemAtIndex:(NSUInteger)index;
 - (void)deselectSelectedItem;
 
