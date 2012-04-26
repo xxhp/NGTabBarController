@@ -3,6 +3,7 @@
 
 
 #define kNGDefaultTintColor             [UIColor blackColor]
+#define kNGDefaultItemHighlightColor    [UIColor colorWithWhite:1.f alpha:0.2f]
 
 
 @interface NGTabBar () {
@@ -27,6 +28,8 @@
 @synthesize tintColor = _tintColor;
 @synthesize backgroundImage = _backgroundImage;
 @synthesize backgroundView = _backgroundView;
+@synthesize showsItemHighlight = _showsItemHighlight;
+@synthesize itemHighlightColor = _itemHighlightColor;
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - Lifecycle
@@ -43,6 +46,7 @@
         _layoutStrategy = NGTabBarLayoutStrategyStrungTogether;
         _itemPadding = 0.f;
         _position = kNGTabBarPositionDefault;
+        _showsItemHighlight = YES;
         
         [self createGradient];
     }
@@ -123,14 +127,24 @@
             currentFrameLeft += appliedItemPadding;
         }
     }
+    
+    // re-compute content size
+    NGTabBarItem *lastItem = [self.items lastObject];
+    
+    if (NGTabBarIsVertical(self.position)) {
+        self.contentSize = CGSizeMake(lastItem.frame.size.width, lastItem.frame.origin.y + lastItem.frame.size.height);
+    } else {
+        self.contentSize = CGSizeMake(lastItem.frame.origin.x + lastItem.frame.size.width, lastItem.frame.size.height);
+    }
 }
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
     if (self.backgroundImage == nil) {
         CGRect bounds = self.bounds;
-        CGContextRef context = UIGraphicsGetCurrentContext();
         CGPoint start;
         CGPoint end;
         
@@ -153,6 +167,27 @@
         }
         
         CGContextDrawLinearGradient(context, _gradientRef, start, end, 0);
+        CGContextRestoreGState(context);
+    }
+    
+    if (self.showsItemHighlight) {
+        CGRect itemRect = [[self.items objectAtIndex:self.selectedItemIndex] frame];
+        CGRect highlightRect = NGTabBarIsVertical(self.position) ? CGRectInset(itemRect, 2.f, 0.f) : CGRectInset(itemRect, 0.f, 2.f);
+        CGFloat cornerRadius = 5.f;
+        CGPoint min = CGPointMake(CGRectGetMinX(highlightRect), CGRectGetMinY(highlightRect));
+        CGPoint mid = CGPointMake(CGRectGetMidX(highlightRect), CGRectGetMidY(highlightRect));
+        CGPoint max = CGPointMake(CGRectGetMaxX(highlightRect), CGRectGetMaxY(highlightRect));
+        
+        CGContextSaveGState(context);
+        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1.f alpha:0.2f].CGColor);
+        CGContextMoveToPoint(context, min.x, mid.y);
+        CGContextAddArcToPoint(context, min.x, min.y, mid.x, min.y, cornerRadius);
+        CGContextAddArcToPoint(context, max.x, min.y, max.x, mid.y, cornerRadius);
+        CGContextAddArcToPoint(context, max.x, max.y, mid.x, max.y, cornerRadius);
+        CGContextAddArcToPoint(context, min.x, max.y, min.x, mid.y, cornerRadius);
+        
+        CGContextClosePath(context);
+        CGContextFillPath(context);
         CGContextRestoreGState(context);
     }
 }
@@ -185,8 +220,6 @@
             self.alwaysBounceVertical = NO;
         }
         
-        // TODO: re-compute contentSize
-        
         [self setNeedsLayout];
         [self setNeedsDisplay];
     }
@@ -200,6 +233,7 @@
         item.selected = YES;
         
         self.selectedItemIndex = index;
+        [self setNeedsDisplay];
     }
 }
 
@@ -209,6 +243,7 @@
         
         selectedItem.selected = NO;
         self.selectedItemIndex = NSNotFound;
+        [self setNeedsDisplay];
     }
 }
 
@@ -240,6 +275,24 @@
     if (tintColor != _tintColor) {
         _tintColor = tintColor;
         [self createGradient];
+        [self setNeedsDisplay];
+    }
+}
+
+- (UIColor *)itemHighlightColor {
+    return _itemHighlightColor ?: kNGDefaultItemHighlightColor;
+}
+
+- (void)setItemHighlightColor:(UIColor *)itemHighlightColor {
+    if (itemHighlightColor != _itemHighlightColor) {
+        _itemHighlightColor = itemHighlightColor;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setShowsItemHighlight:(BOOL)showsItemHighlight {
+    if (showsItemHighlight != _showsItemHighlight) {
+        _showsItemHighlight = showsItemHighlight;
         [self setNeedsDisplay];
     }
 }

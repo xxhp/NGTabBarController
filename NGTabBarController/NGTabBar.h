@@ -29,6 +29,10 @@ typedef enum {
 @property (nonatomic, strong) UIColor *tintColor;
 /** defaults to nil */
 @property (nonatomic, strong) UIImage *backgroundImage;
+/** flag whether the semi-transparent item highlight is shown */
+@property (nonatomic, assign) BOOL showsItemHighlight;
+/** defaults to white */
+@property (nonatomic, strong) UIColor *itemHighlightColor;
 
 - (void)selectItemAtIndex:(NSUInteger)index;
 - (void)deselectSelectedItem;

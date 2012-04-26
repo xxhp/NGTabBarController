@@ -39,12 +39,13 @@
 
 @property (nonatomic, assign) BOOL tabBarHidden;
 
-- (void)setTabBarHidden:(BOOL)tabBarHidden animated:(BOOL)animated;
+
+/** The designated initializer. */
+- (id)initWithDelegate:(id<NGTabBarControllerDelegate>)delegate;
 
 /** Sets the view controllers of the tab bar controller. */
 - (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated;
 
-/** The designated initializer. */
-- (id)initWithDelegate:(id<NGTabBarControllerDelegate>)delegate;
+- (void)setTabBarHidden:(BOOL)tabBarHidden animated:(BOOL)animated;
 
 @end

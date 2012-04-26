@@ -131,27 +131,6 @@
         
         CGContextRestoreGState(context);
     }
-    
-    // draw highlight
-    if (_selectedByUser) {
-        CGRect highlightRect = CGRectInset(rect, 2.f, 2.f);
-        CGFloat cornerRadius = 4.f;
-        CGPoint min = CGPointMake(CGRectGetMinX(highlightRect), CGRectGetMinY(highlightRect));
-        CGPoint mid = CGPointMake(CGRectGetMidX(highlightRect), CGRectGetMidY(highlightRect));
-        CGPoint max = CGPointMake(CGRectGetMaxX(highlightRect), CGRectGetMaxY(highlightRect));
-        
-        CGContextSaveGState(context);
-        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1.f alpha:0.2f].CGColor);
-        CGContextMoveToPoint(context, min.x, mid.y);
-        CGContextAddArcToPoint(context, min.x, min.y, mid.x, min.y, cornerRadius);
-        CGContextAddArcToPoint(context, max.x, min.y, max.x, mid.y, cornerRadius);
-        CGContextAddArcToPoint(context, max.x, max.y, mid.x, max.y, cornerRadius);
-        CGContextAddArcToPoint(context, min.x, max.y, min.x, mid.y, cornerRadius);
-        
-        CGContextClosePath(context);
-        CGContextFillPath(context);
-        CGContextRestoreGState(context);
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////
