@@ -43,6 +43,7 @@ NGTabBarController was created by [Matthias Tretter](https://github.com/myell0w/
 ## Images
 
 ![Right Side](http://img.skitch.com/20120427-p14wrqtg2drbpn15exncxgyfbr.png "Right Side")
+![Left Side](http://img.skitch.com/20120427-ctj4hqh5quh5k5r37a92m3u1h4.png "Left Side")
 
 ## License
 
