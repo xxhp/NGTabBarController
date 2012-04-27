@@ -1,5 +1,6 @@
 #import "NGTabBar.h"
 #import "NGTabBarItem.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 #define kNGDefaultTintColor             [UIColor blackColor]
@@ -11,8 +12,10 @@
 }
 
 @property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) UIView *itemHighlightView;
 
 - (void)createGradient;
+- (void)updateItemHighlight;
 - (CGFloat)dimensionToBeConsideredOfItem:(NGTabBarItem *)item;
 
 @end
@@ -28,6 +31,7 @@
 @synthesize tintColor = _tintColor;
 @synthesize backgroundImage = _backgroundImage;
 @synthesize backgroundView = _backgroundView;
+@synthesize itemHighlightView = _itemHighlightView;
 @synthesize showsItemHighlight = _showsItemHighlight;
 @synthesize itemHighlightColor = _itemHighlightColor;
 
@@ -49,6 +53,7 @@
         _showsItemHighlight = YES;
         
         [self createGradient];
+        [self updateItemHighlight];
     }
     
     return self;
@@ -136,6 +141,8 @@
     } else {
         self.contentSize = CGSizeMake(lastItem.frame.origin.x + lastItem.frame.size.width, lastItem.frame.size.height);
     }
+    
+    [self updateItemHighlight];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -167,27 +174,6 @@
         }
         
         CGContextDrawLinearGradient(context, _gradientRef, start, end, 0);
-        CGContextRestoreGState(context);
-    }
-    
-    if (self.showsItemHighlight) {
-        CGRect itemRect = [[self.items objectAtIndex:self.selectedItemIndex] frame];
-        CGRect highlightRect = NGTabBarIsVertical(self.position) ? CGRectInset(itemRect, 2.f, 0.f) : CGRectInset(itemRect, 0.f, 2.f);
-        CGFloat cornerRadius = 5.f;
-        CGPoint min = CGPointMake(CGRectGetMinX(highlightRect), CGRectGetMinY(highlightRect));
-        CGPoint mid = CGPointMake(CGRectGetMidX(highlightRect), CGRectGetMidY(highlightRect));
-        CGPoint max = CGPointMake(CGRectGetMaxX(highlightRect), CGRectGetMaxY(highlightRect));
-        
-        CGContextSaveGState(context);
-        CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1.f alpha:0.2f].CGColor);
-        CGContextMoveToPoint(context, min.x, mid.y);
-        CGContextAddArcToPoint(context, min.x, min.y, mid.x, min.y, cornerRadius);
-        CGContextAddArcToPoint(context, max.x, min.y, max.x, mid.y, cornerRadius);
-        CGContextAddArcToPoint(context, max.x, max.y, mid.x, max.y, cornerRadius);
-        CGContextAddArcToPoint(context, min.x, max.y, min.x, mid.y, cornerRadius);
-        
-        CGContextClosePath(context);
-        CGContextFillPath(context);
         CGContextRestoreGState(context);
     }
 }
@@ -233,7 +219,7 @@
         item.selected = YES;
         
         self.selectedItemIndex = index;
-        [self setNeedsDisplay];
+        [self updateItemHighlight];
     }
 }
 
@@ -243,7 +229,7 @@
         
         selectedItem.selected = NO;
         self.selectedItemIndex = NSNotFound;
-        [self setNeedsDisplay];
+        [self updateItemHighlight];
     }
 }
 
@@ -286,14 +272,14 @@
 - (void)setItemHighlightColor:(UIColor *)itemHighlightColor {
     if (itemHighlightColor != _itemHighlightColor) {
         _itemHighlightColor = itemHighlightColor;
-        [self setNeedsDisplay];
+        [self updateItemHighlight];
     }
 }
 
 - (void)setShowsItemHighlight:(BOOL)showsItemHighlight {
     if (showsItemHighlight != _showsItemHighlight) {
         _showsItemHighlight = showsItemHighlight;
-        [self setNeedsDisplay];
+        [self updateItemHighlight];
     }
 }
 
@@ -350,6 +336,24 @@
     
     if (gradientLocations) {
         free(gradientLocations);
+    }
+}
+
+- (void)updateItemHighlight {
+    if (self.selectedItemIndex != NSNotFound) {
+        CGRect itemRect = [[self.items objectAtIndex:self.selectedItemIndex] frame]; 
+        
+        if (_itemHighlightView == nil) {
+            self.itemHighlightView = [[UIView alloc] initWithFrame:CGRectZero];
+            self.itemHighlightView.layer.cornerRadius = 5.f;
+            [self addSubview:self.itemHighlightView];
+        }
+        
+        self.itemHighlightView.backgroundColor = self.itemHighlightColor;
+        self.itemHighlightView.frame = NGTabBarIsVertical(self.position) ? CGRectInset(itemRect, 2.f, 0.f) : CGRectInset(itemRect, 0.f, 2.f);
+        self.itemHighlightView.hidden = !self.showsItemHighlight;
+    } else {
+        self.itemHighlightView.hidden = YES;
     }
 }
 
