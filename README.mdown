@@ -3,7 +3,8 @@
 # NGTabBarController
 
 A custom TabBarController which can be positioned on the bottom, top, left or top. Utilizes iOS 5 Containment API if possible, but works on iOS 4 too.
-
+The TabBar is fully customizable with a tintColor or background image as well as the possibility to show/hide the item highlight and the possibility
+to change the text colors, have image-only tabBar items etc.
 
 ## Usage
 
@@ -14,28 +15,36 @@ NGColoredViewController *vc3 = [[NGColoredViewController alloc] initWithNibName:
 NGColoredViewController *vc4 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
 NGColoredViewController *vc5 = [[NGColoredViewController alloc] initWithNibName:nil bundle:nil];
 
-vc1.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC1" image:nil];
-vc2.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC2" image:nil];
-vc3.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC3" image:nil];
-vc4.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC4" image:nil];
-vc5.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"VC5" image:nil];
+vc1.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"Home" image:image1];
+vc2.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"Images" image:image2];
+vc3.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"Live" image:image3];
+vc4.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"Contact" image:image4];
+vc5.ng_tabBarItem = [NGTabBarItem itemWithTitle:@"Settings" image:image5];
 
 NSArray *viewController = [NSArray arrayWithObjects:vc1,vc2,vc3,vc4,vc5,nil];
 
 NGTabBarController *tabBarController = [[NGTestTabBarController alloc] initWithDelegate:self];
 
 tabBarController.animation = NGTabBarControllerAnimationMoveAndScale;
+tabBarController.layoutStrategy = $isPhone() ? NGTabBarLayoutStrategyEvenlyDistributed : NGTabBarLayoutStrategyCentered;
+tabBarController.itemPadding = 10.f;
+tabBarController.showsItemHighlight = NO;
+tabBarController.tintColor = [UIColor redColor];
 tabBarController.viewControllers = viewController;
 self.window.rootViewController = tabBarController;
 ```
 
-Just have a look inside the provided Demo-Application.
+Just have a look at the provided Demo-Application and the header files to see what's possible.
 
 ## Credits
 
-NGVaryingGridView was created by [Matthias Tretter](https://github.com/myell0w/) ([@myell0w](http://twitter.com/myell0w)).
+NGTabBarController was created by [Matthias Tretter](https://github.com/myell0w/) ([@myell0w](http://twitter.com/myell0w)).
+
+## Images
+
+![Right Side](http://img.skitch.com/20120427-p14wrqtg2drbpn15exncxgyfbr.png "Right Side")
 
 ## License
 
-NGPageControl is available under the MIT license. See the LICENSE file for more info.
+NGTabBarController is available under the MIT license. See the LICENSE file for more info.
 For usage without attribution contact [NOUSguide](mailto:info@nousguide.com).

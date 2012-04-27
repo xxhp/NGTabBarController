@@ -62,7 +62,8 @@
     [super layoutSubviews];
     
     if (self.image != nil) {
-        CGFloat textTop = floor((self.bounds.size.height - self.image.size.height)/2.f) - kNGImageOffset + self.image.size.height + 2.f;
+        CGFloat imageOffset = self.title.length > 0 ? kNGImageOffset : 0.f;
+        CGFloat textTop = floor((self.bounds.size.height - self.image.size.height)/2.f) - imageOffset + self.image.size.height + 2.f;
         
         self.titleLabel.frame = CGRectMake(0.f, textTop, self.bounds.size.width, self.titleLabel.font.lineHeight);
     } else {
@@ -84,8 +85,9 @@
         
         // draw an image in the center of the cell (offset to the top)
         CGSize imageSize = self.image.size;
+        CGFloat imageOffset = self.title.length > 0 ? kNGImageOffset : 0.f;
         CGRect imageRect = CGRectMake(floorf(((bounds.size.width-imageSize.width)/2.f)),
-                                      floorf(((bounds.size.height-imageSize.height)/2.f)) + kNGImageOffset,
+                                      floorf(((bounds.size.height-imageSize.height)/2.f)) + imageOffset,
                                       imageSize.width,
                                       imageSize.height);
         
