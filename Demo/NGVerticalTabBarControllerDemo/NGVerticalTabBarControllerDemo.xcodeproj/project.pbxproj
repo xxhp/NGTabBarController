@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		9B294EE01546DA96004E4A63 /* NGTestTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B294EDF1546DA96004E4A63 /* NGTestTabBarController.m */; };
+		9B6CDB46154B46A400E6B3C4 /* liveradio.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB3E154B46A400E6B3C4 /* liveradio.png */; };
+		9B6CDB47154B46A400E6B3C4 /* liveradio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB3F154B46A400E6B3C4 /* liveradio@2x.png */; };
+		9B6CDB48154B46A400E6B3C4 /* myradio.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB40154B46A400E6B3C4 /* myradio.png */; };
+		9B6CDB49154B46A400E6B3C4 /* myradio@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB41154B46A400E6B3C4 /* myradio@2x.png */; };
+		9B6CDB4A154B46A400E6B3C4 /* news.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB42154B46A400E6B3C4 /* news.png */; };
+		9B6CDB4B154B46A400E6B3C4 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB43154B46A400E6B3C4 /* news@2x.png */; };
+		9B6CDB4C154B46A400E6B3C4 /* ondemand.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB44154B46A400E6B3C4 /* ondemand.png */; };
+		9B6CDB4D154B46A400E6B3C4 /* ondemand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CDB45154B46A400E6B3C4 /* ondemand@2x.png */; };
 		9BA31574153C76CE002E7628 /* libNGTabBarController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA3156F153C769C002E7628 /* libNGTabBarController.a */; };
 		9BEA2B5714ED1B4A00AEE977 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */; };
 		9BEA2B5914ED1B4A00AEE977 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEA2B5814ED1B4A00AEE977 /* Foundation.framework */; };
@@ -38,6 +46,14 @@
 /* Begin PBXFileReference section */
 		9B294EDE1546DA96004E4A63 /* NGTestTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGTestTabBarController.h; sourceTree = "<group>"; };
 		9B294EDF1546DA96004E4A63 /* NGTestTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGTestTabBarController.m; sourceTree = "<group>"; };
+		9B6CDB3E154B46A400E6B3C4 /* liveradio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = liveradio.png; path = NGVerticalTabBarControllerDemo/Images/liveradio.png; sourceTree = "<group>"; };
+		9B6CDB3F154B46A400E6B3C4 /* liveradio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "liveradio@2x.png"; path = "NGVerticalTabBarControllerDemo/Images/liveradio@2x.png"; sourceTree = "<group>"; };
+		9B6CDB40154B46A400E6B3C4 /* myradio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = myradio.png; path = NGVerticalTabBarControllerDemo/Images/myradio.png; sourceTree = "<group>"; };
+		9B6CDB41154B46A400E6B3C4 /* myradio@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "myradio@2x.png"; path = "NGVerticalTabBarControllerDemo/Images/myradio@2x.png"; sourceTree = "<group>"; };
+		9B6CDB42154B46A400E6B3C4 /* news.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = news.png; path = NGVerticalTabBarControllerDemo/Images/news.png; sourceTree = "<group>"; };
+		9B6CDB43154B46A400E6B3C4 /* news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "news@2x.png"; path = "NGVerticalTabBarControllerDemo/Images/news@2x.png"; sourceTree = "<group>"; };
+		9B6CDB44154B46A400E6B3C4 /* ondemand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ondemand.png; path = NGVerticalTabBarControllerDemo/Images/ondemand.png; sourceTree = "<group>"; };
+		9B6CDB45154B46A400E6B3C4 /* ondemand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ondemand@2x.png"; path = "NGVerticalTabBarControllerDemo/Images/ondemand@2x.png"; sourceTree = "<group>"; };
 		9BA31567153C769C002E7628 /* NGTabBarController.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = NGTabBarController.xcodeproj; path = ../../NGTabBarController.xcodeproj; sourceTree = "<group>"; };
 		9BEA2B5214ED1B4A00AEE977 /* NGVerticalTabBarControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NGVerticalTabBarControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BEA2B5614ED1B4A00AEE977 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -68,6 +84,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B6CDB3D154B469800E6B3C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9B6CDB3E154B46A400E6B3C4 /* liveradio.png */,
+				9B6CDB3F154B46A400E6B3C4 /* liveradio@2x.png */,
+				9B6CDB40154B46A400E6B3C4 /* myradio.png */,
+				9B6CDB41154B46A400E6B3C4 /* myradio@2x.png */,
+				9B6CDB42154B46A400E6B3C4 /* news.png */,
+				9B6CDB43154B46A400E6B3C4 /* news@2x.png */,
+				9B6CDB44154B46A400E6B3C4 /* ondemand.png */,
+				9B6CDB45154B46A400E6B3C4 /* ondemand@2x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		9BA31568153C769C002E7628 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				9BEA2B5C14ED1B4A00AEE977 /* NGVerticalTabBarControllerDemo */,
+				9B6CDB3D154B469800E6B3C4 /* Resources */,
 				9BEA2B5514ED1B4A00AEE977 /* Frameworks */,
 				9BEA2B5314ED1B4A00AEE977 /* Products */,
 			);
@@ -198,6 +230,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BEA2B6114ED1B4A00AEE977 /* InfoPlist.strings in Resources */,
+				9B6CDB46154B46A400E6B3C4 /* liveradio.png in Resources */,
+				9B6CDB47154B46A400E6B3C4 /* liveradio@2x.png in Resources */,
+				9B6CDB48154B46A400E6B3C4 /* myradio.png in Resources */,
+				9B6CDB49154B46A400E6B3C4 /* myradio@2x.png in Resources */,
+				9B6CDB4A154B46A400E6B3C4 /* news.png in Resources */,
+				9B6CDB4B154B46A400E6B3C4 /* news@2x.png in Resources */,
+				9B6CDB4C154B46A400E6B3C4 /* ondemand.png in Resources */,
+				9B6CDB4D154B46A400E6B3C4 /* ondemand@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
