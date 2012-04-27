@@ -19,7 +19,7 @@
 		unsigned int didSelectViewController:1;
 	} _delegateFlags;
     
-    BOOL _moveAnimationActive;
+    BOOL _animationActive;
 }
 
 // re-defined as read/write
@@ -53,6 +53,7 @@
 @synthesize delegate = _delegate;
 @synthesize tabBar = _tabBar;
 @synthesize tabBarPosition = _tabBarPosition;
+@synthesize tabBarHidden = _tabBarHidden;
 @synthesize animation = _animation;
 @synthesize animationDuration = _animationDuration;
 @synthesize tabBarItems = _tabBarItems;
@@ -68,7 +69,7 @@
         _oldSelectedIndex = NSNotFound;
         _animation = NGTabBarControllerAnimationNone;
         _animationDuration = kNGDefaultAnimationDuration;
-        _moveAnimationActive = NO;
+        _animationActive = NO;
         _tabBarPosition = kNGTabBarPositionDefault;
         
         // need to call setter here
@@ -150,7 +151,9 @@
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    [self layout];
+    if (!_animationActive) {
+        [self layout];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -221,14 +224,6 @@
     
     // updates the UI
     self.selectedIndex = [self.viewControllers indexOfObject:selectedViewController];
-}
-
-- (void)setViewControllers:(NSArray *)viewControllers animated:(BOOL)animated {
-    if (animated) {
-        // TODO:
-    } else {
-        self.viewControllers = viewControllers;
-    }
 }
 
 - (void)setViewControllers:(NSArray *)viewControllers {
@@ -303,7 +298,7 @@
 }
 
 - (BOOL)tabBarHidden {
-    return self.tabBar.hidden;
+    return _tabBarHidden || self.tabBar.hidden;
 }
 
 - (void)setTabBarHidden:(BOOL)tabBarHidden {
@@ -311,12 +306,22 @@
 }
 
 - (void)setTabBarHidden:(BOOL)tabBarHidden animated:(BOOL)animated {
-    if (animated) {
-        // TODO:
-    } else {
-        self.tabBar.hidden = YES;
-        self.selectedViewController.view.frame = self.childViewControllerFrame;
-        [self layout];
+    if (tabBarHidden != _tabBarHidden) {
+        _tabBarHidden = tabBarHidden;
+        
+        if (animated) {
+            _animationActive = YES;
+            [UIView animateWithDuration:kNGDefaultAnimationDuration
+                             animations:^{
+                                 self.selectedViewController.view.frame = self.childViewControllerFrame;
+                             } completion:^(BOOL finished) {
+                                 _animationActive = NO;
+                                 [self layout];
+                             }];
+        } else {
+            self.selectedViewController.view.frame = self.childViewControllerFrame;
+            [self layout];
+        }
     }
 }
 
@@ -354,7 +359,7 @@
                     }
                     
                     newSelectedViewController.view.frame = frame;
-                    _moveAnimationActive = YES;
+                    _animationActive = YES;
                     
                     if (self.animation == NGTabBarControllerAnimationMoveAndScale) {
                         [UIView animateWithDuration:kNGScaleDuration
@@ -406,13 +411,13 @@
                                                                      newSelectedViewController.view.transform = CGAffineTransformMakeScale(1.f, 1.f);
                                                                  } completion:^(BOOL finished) {
                                                                      newSelectedViewController.view.frame = self.childViewControllerFrame;
-                                                                     _moveAnimationActive = NO;
+                                                                     _animationActive = NO;
                                                                      
                                                                      // call the delegate that we changed selection
                                                                      [self callDelegateDidSelectViewController:newSelectedViewController atIndex:self.selectedIndex];
                                                                  }];
                                             } else {
-                                                _moveAnimationActive = NO;
+                                                _animationActive = NO;
                                                 // call the delegate that we changed selection
                                                 [self callDelegateDidSelectViewController:newSelectedViewController atIndex:self.selectedIndex];
                                             }
@@ -449,10 +454,8 @@
 - (void)layout {
     CGRect childViewControllerFrame = self.childViewControllerFrame;
     
-    if (!_moveAnimationActive) {
-        for (UIViewController *viewController in self.viewControllers) {
-            viewController.view.frame = childViewControllerFrame;
-        }
+    for (UIViewController *viewController in self.viewControllers) {
+        viewController.view.frame = childViewControllerFrame;
     }
     
     [self setupTabBarForPosition:self.tabBarPosition];
@@ -462,6 +465,10 @@
     CGRect bounds = self.view.bounds;
     UIEdgeInsets edgeInsets = UIEdgeInsetsZero;
     CGFloat inset = [self widthOrHeightOfTabBarForPosition:self.tabBarPosition];
+    
+    if (self.tabBarHidden) {
+        inset = 0.f;
+    }
     
     switch (self.tabBarPosition) {
         case NGTabBarPositionTop:
@@ -581,10 +588,6 @@
 }
 
 - (CGFloat)widthOrHeightOfTabBarForPosition:(NGTabBarPosition)position {
-    if (self.tabBarHidden) {
-        return 0.f;
-    }
-    
     CGFloat dimension = kNGTabBarControllerDefaultWidth;
     
     // first item is responsible for dimension of tabBar, all must be equal (will not be checked)
