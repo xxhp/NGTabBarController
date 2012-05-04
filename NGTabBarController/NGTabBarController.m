@@ -253,6 +253,8 @@
             viewController.view.clipsToBounds = YES;
         }
         
+        [self layout];
+        
         if (self.selectedIndex == NSNotFound && _viewControllers.count > 0) {
             [self.view addSubview:[[_viewControllers objectAtIndex:0] view]];
             self.selectedIndex = 0;
@@ -573,6 +575,7 @@
     
     self.tabBar.frame = frame;
     self.tabBar.autoresizingMask = autoresizingMask;
+    [self.tabBar setNeedsLayout];
     
     for (NSUInteger index = 0; index < self.viewControllers.count; index++) {
         UIViewController *viewController = [self.viewControllers objectAtIndex:index];

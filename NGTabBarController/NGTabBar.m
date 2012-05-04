@@ -302,15 +302,26 @@
     
     UIColor *baseColor = self.tintColor;
     CGFloat hue, saturation, brightness, alpha;
+    NSArray *colors = nil;
     
-    // TODO: Only works on iOS 5
-    [baseColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+    // TODO: This is a temporary workaround because getHue:saturation:brightness:alpha: is iOS 5 and up
+    // We need a better way of drawing a TabBar-Gradient
+    if ([baseColor respondsToSelector:@selector(getHue:saturation:brightness:alpha:)]) {
+        [baseColor getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
+        
+        colors = [NSArray arrayWithObjects:
+                  [UIColor colorWithHue:hue saturation:saturation brightness:brightness+0.2 alpha:alpha],
+                  [UIColor colorWithHue:hue saturation:saturation brightness:brightness+0.15 alpha:alpha],
+                  [UIColor colorWithHue:hue saturation:saturation brightness:brightness+0.1 alpha:alpha],
+                  baseColor, nil];
+    } else {
+        colors = [NSArray arrayWithObjects:
+                  baseColor,
+                  baseColor,
+                  baseColor,
+                  baseColor, nil];
+    }
     
-    NSArray *colors = [NSArray arrayWithObjects:
-                       [UIColor colorWithHue:hue saturation:saturation brightness:brightness+0.2 alpha:alpha],
-                       [UIColor colorWithHue:hue saturation:saturation brightness:brightness+0.15 alpha:alpha],
-                       [UIColor colorWithHue:hue saturation:saturation brightness:brightness+0.1 alpha:alpha],
-                       baseColor, nil];
     NSUInteger colorsCount = colors.count;
     CGColorSpaceRef colorSpace = CGColorGetColorSpace([[colors objectAtIndex:0] CGColor]);
     
