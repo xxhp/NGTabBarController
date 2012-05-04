@@ -582,8 +582,16 @@
     NSInteger index = [self.tabBarItems indexOfObject:sender];
     BOOL shouldSelect = [self delegatedDecisionIfWeShouldSelectViewController:[self.viewControllers objectAtIndex:index] atIndex:index];
     
-    if (shouldSelect && index != self.selectedIndex) {
-        self.selectedIndex = index;
+    if (shouldSelect) {
+        if (index != self.selectedIndex) {
+            self.selectedIndex = index;
+        } else {
+            if ([self.selectedViewController isKindOfClass:[UINavigationController class]]) {
+                UINavigationController *navigationController = (UINavigationController *)self.selectedViewController;
+                
+                [navigationController popToRootViewControllerAnimated:YES];
+            }
+        }
     }
 }
 
